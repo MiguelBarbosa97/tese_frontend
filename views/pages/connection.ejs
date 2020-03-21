@@ -1,0 +1,160 @@
+<%- contentFor('content') %>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Connections</h1>
+</div>
+
+<div class="row">
+
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">CSV connections</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "csv_count"> </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-csv fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Rest api's connections</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "rest_count"> </div>
+
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-globe fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hive connections</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "hive_count"></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-database fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-lg-12">
+
+        <!-- Dropdown Card Example -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Connections</h6>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Add new
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Add new connection:</div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#csvModal">CSV</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#restModal">Rest</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#hiveModal">Hive</a>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="connection_table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Connection id</th>
+                                <th>Connection type</th>
+                                <th>Connection name</th>
+
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            <tr>
+
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CSV MODAL  -->
+<div class="modal fade" id="csvModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content border-bottom-success">
+        <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+    </div>
+  </div>
+</div>
+<!-- END CSV MODAL -->
+
+<!-- CSV MODAL  -->
+<div class="modal fade" id="restModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content border-bottom-info">
+        <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+    </div>
+  </div>
+</div>
+<!-- END CSV MODAL -->
+
+<!-- CSV MODAL  -->
+<div class="modal fade" id="hiveModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content border-bottom-warning">
+        <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+    </div>
+  </div>
+</div>
+
+<!-- END CSV MODAL -->
+
+<script src="js/app_js/connection.js"></script>
