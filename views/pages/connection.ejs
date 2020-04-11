@@ -14,7 +14,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">CSV connections</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "csv_count"> </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="csv_count"> </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-file-csv fa-2x text-gray-300"></i>
@@ -31,7 +31,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Rest api's connections</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "rest_count"> </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="rest_count"> </div>
 
                     </div>
                     <div class="col-auto">
@@ -49,7 +49,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hive connections</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id= "hive_count"></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hive_count"></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-database fa-2x text-gray-300"></i>
@@ -98,12 +98,12 @@
 
                             </tr>
                         </thead>
-    
+
                         <tbody>
                             <tr>
 
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -117,44 +117,160 @@
 <!-- CSV MODAL  -->
 <div class="modal fade" id="csvModal" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content border-bottom-success">
-        <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-success">
+            <div class="modal-body">
+                <div class="form-group">
+                <label for="exampleInputPassword1">Upload CSV file</label>
+
+                <div class="input-group">
+            
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+            </div>
+
+                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                        <span class="text" id="save_csv">Upload and Save</span>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- END CSV MODAL -->
 
-<!-- CSV MODAL  -->
+<!-- REST MODAL  -->
 <div class="modal fade" id="restModal" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content border-bottom-info">
-        <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
-    </div>
-  </div>
-</div>
-<!-- END CSV MODAL -->
 
-<!-- CSV MODAL  -->
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-info">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Connection Name</label>
+                        <input type="text" class="form-control" id="rest_name" placeholder="Connection Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Service URL</label>
+                        <input type="text" class="form-control" id="rest_url" placeholder="Service URL">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="rest_method">Method</label>
+                            <select id="rest_method" class="form-control">
+                                <option value= "GET" selected>GET</option>
+                                <option value= "POST">POST</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Accept Type</label>
+                            <input type="number" class="form-control" id="rest_type" placeholder="application/json"
+                                readonly>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auth">Authentication</label>
+                        <select id="auth" class="form-control" onChange="handleSelection(value)">
+                            <option value="false" selected>No auth</option>
+                            <option value="Basic">Basic auth</option>
+                        </select>
+                    </div>
+                    <div id="auth_div">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Username</label>
+                            <input type="text" class="form-control" id="rest_username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="rest_password" placeholder="Password">
+                        </div>
+
+                    </div>
+
+                    <a href="#" class="btn btn-success btn-icon-split btn-sm">
+
+                        <span class="text" id="save_rest">Save</span>
+                    </a>
+                    <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                        <span class="text" id="test_connection_rest">Test connection</span>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END REST MODAL -->
+
+<!-- HIVE MODAL  -->
 <div class="modal fade" id="hiveModal" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content border-bottom-warning">
-        <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-warning">
+            <div class="modal-body">
+                <form>
+
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label for="exampleInputEmail1">Database url</label>
+                            <input type="text" class="form-control" id="hive_url" placeholder="Database url">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputPassword1">Port</label>
+                            <input type="number" class="form-control" id="hive_port" placeholder="Port">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Database Name</label>
+                        <input type="text" class="form-control" id="hive_database" placeholder="Database Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Database user</label>
+                        <input type="text" class="form-control" id="hive_user" placeholder="Database user">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="hive_password" placeholder="Password">
+                    </div>
+                    <a href="#" class="btn btn-success btn-icon-split btn-sm">
+
+                        <span class="text" id="save_hive">Save</span>
+                    </a>
+                    <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                        <span class="text" id="test_connection_hive">Test connection</span>
+                    </a>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- END CSV MODAL -->
+<!-- END HIVE MODAL -->
+<script>
 
+    var x = document.getElementById("auth_div");
+    x.style.display = "none";
+
+    function handleSelection(choice) {
+        var x = document.getElementById("auth_div");
+        if (choice === "Basic") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+
+    }
+
+</script>
 <script src="js/app_js/connection.js"></script>

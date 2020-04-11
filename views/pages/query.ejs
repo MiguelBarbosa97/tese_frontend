@@ -1,0 +1,449 @@
+<%- contentFor('content') %>
+<style>
+    :root {
+        --background-color: #FFFFFF;
+        --primary-color: #E66A53;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    .steps {
+        width: 700px;
+        background-color: #FFF;
+        padding: 24px 0;
+        position: relative;
+        margin: auto;
+    }
+
+    .steps::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: 24px;
+        width: 1px;
+        background-color: rgba(0, 0, 0, 0.2);
+        left: calc(50px / 2);
+        z-index: 1;
+    }
+
+    .steps::after {
+        content: '';
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        background-color: var(--primary-color);
+        box-shadow: 0px 0px 5px 0px var(--primary-color);
+        border-radius: 15px;
+        left: calc(50px / 2);
+        bottom: 24px;
+        transform: translateX(-45%);
+        z-index: 2;
+    }
+
+    .step {
+        padding: 0 20px 24px 50px;
+        position: relative;
+        transition: all 0.4s ease-in-out;
+        background-color: #FFF;
+    }
+
+    .step::before {
+        content: '';
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        background-color: rgb(198, 198, 198);
+        border-radius: 15px;
+        left: calc(50px / 2);
+        transform: translateX(-45%);
+        z-index: 2;
+    }
+
+    .step::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        background-color: rgb(198, 198, 198);
+        left: calc(50px / 2);
+        top: 0;
+        z-index: 1;
+    }
+
+    .step.minimized {
+        background-color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .header {
+        user-select: none;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .subheader {
+        user-select: none;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    .step-content {
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .step.minimized>.step-content {
+        height: 0px;
+    }
+
+    .step-content.one {
+        height: 50px;
+        width: 100%;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .step-content.two {
+        height: 600px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .step-content.three {
+        height: 400px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .next-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 0;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: red;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+        color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 0;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: rgb(255, 0, 255);
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+        color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Irrelevant styling things */
+    .close-btn:hover {
+        background-color: rgba(255, 0, 255, 0.6);
+    }
+
+    .close-btn:focus {
+        outline: 0;
+    }
+
+    .next-btn:hover {
+        background-color: rgba(255, 0, 0, 0.6);
+    }
+
+    .next-btn:focus {
+        outline: 0;
+    }
+
+    .step.minimized:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+</style>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Queries</h1>
+</div>
+
+<div class="row">
+
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">CSV queries</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="csv_count"> </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-csv fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Rest api's queries</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="rest_count"> </div>
+
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-globe fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hive queries</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hive_count"></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-database fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-lg-12">
+
+        <!-- Dropdown Card Example -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Queries</h6>
+                <div class="nav-item dropdown">
+                    <button class="btn btn-secondary" data-toggle="modal" data-target="#newQueryWizardModal">
+                        New query wizard
+                    </button>
+
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="query_table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Query id</th>
+                                <th>Query type</th>
+                                <th>Query name</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- query MODAL  -->
+<div class="modal fade" id="newQueryWizardModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-header">
+
+                            <div class="header">Select connection</div>
+                            <div class="subheader">Please select connection type
+                                </br>
+                                <select id="connectionType" class="form-control input-sm"
+                                    onChange="handleSelection(value)">
+                                    <option value=""></option>
+                                    <option value="Hive">Hive</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="Rest">Rest</option>
+                                </select>
+
+                            </div>
+                            </br>
+
+                            <div class="subheader">Please select connection
+                                <select id="connection" class="form-control input-sm" onChange="handleSelectionConnection(value)">
+
+
+                                </select>
+
+                            </div>
+                            </br>
+
+                            <div id="wizardHide" class="subheader">Please select wizard type
+                                <select id="hiveTable" class="form-control input-sm" onChange="handleSelectionWizard(value)">
+                                    <option value="ui" selected>UI wizard (only one table allowed)</option>
+                                    <option value="sql">SQL Snippet</option>
+
+                                </select>
+
+                            </div>
+                        </br>
+
+                            <div id="hiveTableHide" class="subheader">Please select one table
+                                <select id="hiveTableName" class="form-control input-sm">
+
+
+                                </select>
+
+                            </div>
+
+                        </div>
+                        <div class="step-content one">
+                            <button class="next-btn">Next</button>
+                        </div>
+                    </div>
+                    
+                    <div id="UIView">
+                    <div class="step minimized" >
+                        <div class="step-header">
+                            <div class="header">Select columns</div>
+                            <div class="subheader"></div>
+                        </div>
+                        <div class="step-content one">
+                            <button class="next-btn">Next</button>
+                        </div>
+                    </div>
+                    <div class="step minimized">
+                        <div class="step-header">
+                            <div class="header">Select filter</div>
+                            <div class="subheader">Last but not the least!</div>
+                        </div>
+                        <div class="step-content one">
+                            <button class="next-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="SQLView">
+                    <div class="step minimized" >
+                        <div class="step-header">
+                            <div class="header">SQL Snippet</div>
+                            <div class="subheader"></div>
+                        </div>
+                        <div class="step-content one">
+                            <button class="next-btn">Next</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="step minimized" >
+                    <div class="step-header">
+                        <div class="header">Preview data</div>
+                        <div class="subheader"></div>
+                    </div>
+                    <div class="step-content one">
+                        <button class="next-btn">Next</button>
+                    </div>
+                </div>
+                <div class="step minimized" >
+                    <div class="step-header">
+                        <div class="header">Finish</div>
+                        <div class="subheader"></div>
+                    </div>
+                    <div class="step-content one">
+                        <button class="close-btn">Next</button>
+                    </div>
+                </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END query MODAL -->
+<script>
+
+    function handleSelectionConnection(value){
+        fill_table_dropdown(value);
+        }
+
+    function handleSelection(choice) {
+        
+        var y = document.getElementById("wizardHide");
+        var x = document.getElementById("hiveTableHide");
+        if (choice === "Hive") {
+            fill_connection_dropdown("Hive");
+            x.style.display = "block";
+            y.style.display = "block";
+
+        } else if (choice === "csv") {
+            fill_connection_dropdown("csv");
+            x.style.display = "none";
+            y.style.display = "none";
+        }else if (choice === "Rest") {
+            fill_connection_dropdown("Rest");
+            x.style.display = "none";
+            y.style.display = "none";
+        }
+
+    }
+
+    function handleSelectionWizard(choice){
+        var x = document.getElementById("hiveTableHide");
+        var ui = document.getElementById("UIView");
+        var sql = document.getElementById("SQLView");
+
+        if (choice === "ui") {
+            x.style.display = "block";
+            ui.style.display = "block";
+            sql.style.display = "none";
+
+        } else {
+            x.style.display = "none";
+            ui.style.display = "none";
+            sql.style.display = "block";
+        }
+
+    }
+
+</script>
+<script src="js/app_js/query.js"></script>

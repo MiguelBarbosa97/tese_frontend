@@ -13,4 +13,9 @@ router.get('/home', function(req, res, next) {
 router.get('/connection', function(req, res, next) {
   res.render('pages/connection')
 })
+
+router.get('/query', function(req, res, next) {
+  res.render('pages/query')
+})
+
 module.exports = router
