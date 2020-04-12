@@ -146,7 +146,7 @@
         border: 0;
         padding: 10px 20px;
         border-radius: 4px;
-        background-color: rgb(255, 0, 255);
+        background-color: #5a5c69;
         box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
         color: #FFF;
         transition: background-color 0.3s ease-in-out;
@@ -156,7 +156,7 @@
 
     /* Irrelevant styling things */
     .close-btn:hover {
-        background-color: rgba(255, 0, 255, 0.6);
+        background-color: #5a5c69;
     }
 
     .close-btn:focus {
@@ -308,7 +308,8 @@
                             </br>
 
                             <div class="subheader">Please select connection
-                                <select id="connection" class="form-control input-sm" onChange="handleSelectionConnection(value)">
+                                <select id="connection" class="form-control input-sm"
+                                    onChange="handleSelectionConnection(value)">
 
 
                                 </select>
@@ -317,17 +318,19 @@
                             </br>
 
                             <div id="wizardHide" class="subheader">Please select wizard type
-                                <select id="hiveTable" class="form-control input-sm" onChange="handleSelectionWizard(value)">
+                                <select id="hiveTable" class="form-control input-sm"
+                                    onChange="handleSelectionWizard(value)">
                                     <option value="ui" selected>UI wizard (only one table allowed)</option>
                                     <option value="sql">SQL Snippet</option>
 
                                 </select>
 
                             </div>
-                        </br>
+                            </br>
 
                             <div id="hiveTableHide" class="subheader">Please select one table
-                                <select id="hiveTableName" class="form-control input-sm">
+                                <select id="hiveTableName" class="form-control input-sm"
+                                    onChange="handleSelectionTableHive(value)">
 
 
                                 </select>
@@ -335,61 +338,98 @@
                             </div>
 
                         </div>
-                        <div class="step-content one">
-                            <button class="next-btn">Next</button>
+                    </div>
+
+                    <div id="UIView">
+                        <div class="step minimized">
+                            <div class="step-header">
+                                <div class="header">Select columns</div>
+                            </div>
+                            
+                            <select id="selectedColumns" name="selectedColumns[]" multiple="multiple"
+                                class="form-control input-sm">
+
+
+                            </select>
+
+                        </div>
+                        <div class="step minimized">
+                            <div class="step-header">
+                                <div class="header">Select filter</div>
+
+                            </div>
+
+
+                            <div class="container">
+                                <table id="myTable" class=" table order-list">
+                                   
+                     
+                                      <thead>
+                                  
+                                        <tr>
+                                            <td >Column</td>
+                                            <td >Value</td>
+                                            <td ></td>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                        
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" style="text-align: left;">
+                                                <input type="button" class="btn btn-lg btn-block " id="addrow"
+                                                    value="Add Row" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+
                         </div>
                     </div>
-                    
-                    <div id="UIView">
-                    <div class="step minimized" >
-                        <div class="step-header">
-                            <div class="header">Select columns</div>
-                            <div class="subheader"></div>
+                    <div id="SQLView">
+                        <div class="step minimized">
+                            <div class="step-header">
+                                <div class="header">SQL Snippet</div>
+                                <div class="subheader"></div>
+                            </div>
+                            <div class="step-content one">
+                                <button class="next-btn">Next</button>
+                            </div>
                         </div>
-                        <div class="step-content one">
-                            <button class="next-btn">Next</button>
-                        </div>
+
                     </div>
                     <div class="step minimized">
                         <div class="step-header">
-                            <div class="header">Select filter</div>
-                            <div class="subheader">Last but not the least!</div>
+                            <div class="header">Query specifications</div>
+                            <div class="subheader">Cache results</div>
                         </div>
-                        <div class="step-content one">
-                            <button class="next-btn">Next</button>
-                        </div>
+                        <select id="cacheSelect" class="form-control input-sm">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </br>
+                        <div class="subheader">Query Name</div>
+                        <input type="text" id="queryName" name="queryName" class="form-control" />
+
                     </div>
-                </div>
-                <div id="SQLView">
-                    <div class="step minimized" >
+
+                    <div class="step minimized">
                         <div class="step-header">
-                            <div class="header">SQL Snippet</div>
-                            <div class="subheader"></div>
+                            <div class="header">Finish</div>
                         </div>
-                        <div class="step-content one">
-                            <button class="next-btn">Next</button>
-                        </div>
+
+                        
+                            
+                            <span class="close-btn" id="saveQuery">Save Query</span>
+                        </a>
                     </div>
-                    
-                </div>
-                <div class="step minimized" >
-                    <div class="step-header">
-                        <div class="header">Preview data</div>
-                        <div class="subheader"></div>
-                    </div>
-                    <div class="step-content one">
-                        <button class="next-btn">Next</button>
-                    </div>
-                </div>
-                <div class="step minimized" >
-                    <div class="step-header">
-                        <div class="header">Finish</div>
-                        <div class="subheader"></div>
-                    </div>
-                    <div class="step-content one">
-                        <button class="close-btn">Next</button>
-                    </div>
-                </div>
 
                 </div>
 
@@ -402,14 +442,35 @@
 <!-- END query MODAL -->
 <script>
 
-    function handleSelectionConnection(value){
+    function handleSelectionTableHive(value) {
+
+        fill_column_dropdown_hive(value);
+    }
+  
+    function handleSelectionConnection(value) {
         fill_table_dropdown(value);
+        var e = document.getElementById("connectionType");
+        var type = e.options[e.selectedIndex].value;
+
+        clear_columns();
+
+        if (type === "csv") {
+            fill_column_dropdown("csv/getHeader/" + value);
+        } else if (type === "Rest") {
+            fill_column_dropdown("RestClient/getHeaders/" + value);
         }
 
+    }
+
     function handleSelection(choice) {
-        
+
         var y = document.getElementById("wizardHide");
         var x = document.getElementById("hiveTableHide");
+        var ui = document.getElementById("UIView");
+        var sql = document.getElementById("SQLView");
+
+        clear_columns();
+        
         if (choice === "Hive") {
             fill_connection_dropdown("Hive");
             x.style.display = "block";
@@ -419,15 +480,22 @@
             fill_connection_dropdown("csv");
             x.style.display = "none";
             y.style.display = "none";
-        }else if (choice === "Rest") {
+
+            ui.style.display = "block";
+            sql.style.display = "none";
+
+        } else if (choice === "Rest") {
             fill_connection_dropdown("Rest");
             x.style.display = "none";
             y.style.display = "none";
+                        
+            ui.style.display = "block";
+            sql.style.display = "none";
         }
 
     }
 
-    function handleSelectionWizard(choice){
+    function handleSelectionWizard(choice) {
         var x = document.getElementById("hiveTableHide");
         var ui = document.getElementById("UIView");
         var sql = document.getElementById("SQLView");
@@ -444,6 +512,7 @@
         }
 
     }
+
 
 </script>
 <script src="js/app_js/query.js"></script>

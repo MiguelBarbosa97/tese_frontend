@@ -32,6 +32,9 @@ function fill_connection_dropdown(in_type) {
       }
     }
   });
+  var option = document.createElement('option');
+  option.text = option.value = "";
+  select.add(option, 0);
 }
 
 function fill_table_dropdown(id) {
@@ -55,7 +58,7 @@ function fill_table_dropdown(id) {
           var option = document.createElement('option');
           console.log(new_array[i].tab_name);
           option.text = new_array[i].tab_name;
-          option.value = new_array[i].tab_name;
+          option.value = id + "/" + new_array[i].tab_name;
 
           select.add(option, 0);
         }
@@ -63,7 +66,144 @@ function fill_table_dropdown(id) {
 
     }
   });
+  var option = document.createElement('option');
+  option.text = option.value = "";
+  select.add(option, 0);
 }
+
+function clear_columns(){
+  var select = document.getElementById("selectedColumns");
+
+  var length = select.options.length;
+
+  for (i = length - 1; i >= 0; i--) {
+    select.options[i] = null;
+  }
+  var bodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0]; 
+  bodyRef.innerHTML = '';
+}
+
+function fill_column_dropdown_hive(value) {
+
+  var select = document.getElementById("selectedColumns");
+
+  var length = select.options.length;
+
+  for (i = length - 1; i >= 0; i--) {
+    select.options[i] = null;
+  }
+
+  $.ajax({
+    type: "GET",
+    contentType: 'application/json',
+    url: "http://localhost:8080/hive/getColumn/" + value,
+    success: function (data) {
+
+      var new_array = data.result;
+      if (new_array.length > 0) {
+        for (var i = 0; i < new_array.length; i++) {
+          var option = document.createElement('option');
+          option.text = option.value = new_array[i].col_name;
+          select.add(option, 0);
+        }
+    
+        
+      }
+
+    }
+  });
+
+}
+
+function fill_column_dropdown(value) {
+
+  var select = document.getElementById("selectedColumns");
+  
+  var length = select.options.length;
+
+  for (i = length - 1; i >= 0; i--) {
+    select.options[i] = null;
+  }
+
+  $.ajax({
+    type: "GET",
+    contentType: 'application/json',
+    url: "http://localhost:8080/" + value,
+    success: function (data) {
+
+      var new_array = data.result;
+      if (new_array.length > 0) {
+        for (var i = 0; i < new_array.length; i++) {
+          var option = document.createElement('option');
+
+          option.text = option.value = new_array[i];
+          select.add(option, 0);
+          // columns_filter.add(option, 0);
+        }
+  
+      }
+
+    }
+  });
+
+
+
+}
+
+function fill_columns_for_filter(value) {
+
+  var select = document.getElementById(value);
+
+  var length = document.getElementById("selectedColumns").options.length;
+
+  for (i = length - 1; i >= 0; i--) {
+    var value = document.getElementById("selectedColumns").options[i].value;
+    var option = document.createElement('option');
+
+    option.text = option.value = value;
+    select.add(option, 0);
+  }
+
+}
+
+$(document).ready(function () {
+  var counter = 0;
+  $("#addrow").on("click", function () {
+    var newRow = $("<tr>");
+    var cols = "";
+    var id_col = 'columns_filter' + counter;
+    cols += '<td> <select id="columns_filter' + counter + '" name = "columns_filter' + counter + '" class="form-control"> </select></td>';
+    cols += '<td><input type="text" id="value_filter' + counter + '" name="value_filter' + counter + '" class="form-control" /></td>';
+    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " value="X"></td>';
+    newRow.append(cols);
+    $("table.order-list").append(newRow);
+    counter++;
+
+    fill_columns_for_filter(id_col);
+  });
+
+  $("table.order-list").on("click", ".ibtnDel", function (event) {
+    $(this).closest("tr").remove();
+    counter -= 1
+  });
+});
+
+
+
+function calculateRow(row) {
+  var price = +row.find('input[name^="price"]').val();
+
+}
+
+function calculateGrandTotal() {
+  var grandTotal = 0;
+  $("table.order-list").find('input[name^="price"]').each(function () {
+    grandTotal += +$(this).val();
+  });
+  $("#grandtotal").text(grandTotal.toFixed(2));
+}
+
+
 
 $(document).ready(function () {
 
@@ -148,6 +288,126 @@ $(document).ready(function () {
     });
   }
 
+  $("#saveQuery").click(function () {
+
+    var type = document.getElementById("connectionType").options[document.getElementById("connectionType").selectedIndex].value;
+    var connectionID = document.getElementById("connection").options[document.getElementById("connection").selectedIndex].value;
+    var cacheResults = document.getElementById("cacheSelect").options[document.getElementById("cacheSelect").selectedIndex].value;
+    var queryName = document.getElementById("queryName").value;
+
+    var lengthColumns = document.getElementById("selectedColumns").options.length;
+    var selected = [];
+    var unselected = [];
+
+    for (var i = 0; i < lengthColumns; i++) {
+      elementList = document.getElementById("selectedColumns").options[i];
+
+      if (elementList.selected == true) {
+        selected.push(elementList.value);
+      } else {
+        unselected.push(elementList.value);
+      }
+    }
+
+    var filterArray = [];
+    var lengthfilter = document.getElementById("myTable").tBodies[0].rows.length;
+   
+    
+    for (var i = 0; i < lengthfilter; i++) {
+      element = [document.getElementById("columns_filter" + i).options[document.getElementById("columns_filter" + i).selectedIndex].value, document.getElementById("value_filter" + i).value];
+      filterArray.push(element)
+    }
+
+    if (type == 'Rest') {
+      var reqJson = {
+        "restID": connectionID,
+        "cache": cacheResults,
+        "columnsfilter": unselected,
+        "nameQuery": queryName,
+        "rowsfilter": filterArray
+      };
+
+      var url = "http://localhost:8080/RestClient/SaveQuery";
+
+    } else if (type == 'csv') {
+      var reqJson = {
+        "csvId": connectionID,
+        "cache": cacheResults,
+        "columnsfilter": unselected,
+        "name": queryName,
+        "rowsfilter": filterArray
+      };
+
+      var url = "http://localhost:8080/csv/SaveQuery";
+
+    }else{
+      var typeValidation = document.getElementById("hiveTable").options[document.getElementById("hiveTable").selectedIndex].value;
+
+      if(typeValidation == 'ui'){
+        var hiveTable = document.getElementById("hiveTableName").options[document.getElementById("hiveTableName").selectedIndex].text;
+
+        var columnSelectQuery = '';
+        for (var i = 0; i < selected.length; i++) {
+          
+          columnSelectQuery = columnSelectQuery + selected[i] + ','
+        }
+        columnSelectQuery = columnSelectQuery.slice(0,-1);
+        
+        var whereSelectQuery = '';
+        if(filterArray.length != 0){
+          whereSelectQuery += " WHERE ";
+        }
+
+        for (var i = 0; i < filterArray.length; i++) {
+          
+          whereSelectQuery = whereSelectQuery  + filterArray[i][0] + ' = '  + "'" + filterArray[i][1]  + "' AND "
+        }
+        whereSelectQuery = whereSelectQuery.slice(0,-4);
+        
+        var query = "SELECT " + columnSelectQuery + ' FROM ' + hiveTable + ' ' + whereSelectQuery;
+
+        console.log(query);
+        
+        var reqJson= {
+          "query": query,
+          "hiveService": connectionID,
+          "cache": cacheResults,
+          "queryname": queryName
+        };
+        var url  = "http://localhost:8080/hive/SaveQuery";
+      }
+    }
+
+
+    $.ajax({
+      type: "POST",
+      contentType: 'application/json',
+      url: url,
+      data: JSON.stringify(reqJson),
+
+      success: function (data) {
+        init_page();
+        Swal.fire({
+          position: 'top-end',
+          title: JSON.stringify(data.message).slice(1, -1),
+          showConfirmButton: false,
+          timer: 1000
+        })
+        $('#newQueryWizardModal').modal('hide');
+
+      },
+      error: function (error) {
+        console.log(error);
+        Swal.fire({
+          position: 'top-end',
+          title: JSON.stringify(data.message).slice(1, -1),
+          showConfirmButton: false,
+          timer: 1000
+        })
+      },
+    });
+
+  });
 
   init_page();
 

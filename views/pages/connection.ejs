@@ -122,21 +122,21 @@
         <div class="modal-content border-bottom-success">
             <div class="modal-body">
                 <div class="form-group">
-                <label for="exampleInputPassword1">Upload CSV file</label>
+                    <label for="exampleInputPassword1">Upload CSV file</label>
 
-                <div class="input-group">
-            
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01"
-                            aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    <div class="input-group">
+
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <a href="#" class="btn btn-info btn-icon-split btn-sm">
 
-                        <span class="text" id="save_csv">Upload and Save</span>
+                    <span class="text" id="save_csv">Upload and Save</span>
                 </a>
             </div>
         </div>
@@ -164,8 +164,8 @@
                         <div class="form-group col-md-6">
                             <label for="rest_method">Method</label>
                             <select id="rest_method" class="form-control">
-                                <option value= "GET" selected>GET</option>
-                                <option value= "POST">POST</option>
+                                <option value="GET" selected>GET</option>
+                                <option value="POST">POST</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -257,7 +257,40 @@
 </div>
 
 <!-- END HIVE MODAL -->
+
+<!-- SHARE MODAL  -->
+<div class="modal fade" id="shareModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+                <div class="form-group">
+                    <form>
+                        <input type="hidden" id="connectionIdShare" name="connectionIdShare">
+
+                        <input type="hidden" id="pathShare" name="pathShare">
+
+                        <label for="exampleInputPassword1">Select users to share</label>
+                        <select id="allUsers" name="allUsers[]" multiple="multiple" class="form-control input-sm">
+
+
+                        </select>
+                        </br>
+                        <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                            <span class="text" id="share_connection">Share Connection</span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SHARE MODAL -->
+
 <script>
+
 
     var x = document.getElementById("auth_div");
     x.style.display = "none";
