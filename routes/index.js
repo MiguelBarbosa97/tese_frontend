@@ -18,4 +18,12 @@ router.get('/query', function(req, res, next) {
   res.render('pages/query')
 })
 
+router.get('/visualization', function(req, res, next) {
+  res.render('pages/visualization')
+})
+
+router.get('/dataVisualizations', function(req, res, next) {
+  res.render('pages/datavisualization')
+})
+
 module.exports = router

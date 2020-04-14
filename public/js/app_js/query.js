@@ -4,6 +4,61 @@ document.getElementById("SQLView").style.display = "none";
 document.getElementById("wizardHide").style.display = "none";
 document.getElementById("hiveTableHide").style.display = "none";
 
+
+function init_page() {
+  function updateTable(tableId, jsonData) {
+
+    var tableHTML = "<tr>";
+    for (var headers in jsonData[0]) {
+      tableHTML += "<th>" + headers + "</th>";
+    }
+    tableHTML += "<th>Actions</th>";
+
+    tableHTML += "</tr>";
+
+    for (var eachItem in jsonData) {
+      tableHTML += "<tr>";
+      var dataObj = jsonData[eachItem];
+      for (var eachValue in dataObj) {
+        tableHTML += "<td>" + dataObj[eachValue] + "</td>";
+      }
+      tableHTML +=  '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-share-alt"></i></a><a></a>  <a href="#" class="btn btn-warning btn-circle btn-sm" onclick="previewQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="far fa-eye"></i></a></td>';
+
+      tableHTML += "</tr>";
+    }
+
+    document.getElementById(tableId).innerHTML = tableHTML;
+  }
+
+  var user_id = sessionStorage.getItem('user_id');
+
+  $.ajax({
+    type: "GET",
+    contentType: 'application/json',
+    url: "http://localhost:8080/users/getAllQueries/" + user_id,
+    success: function (data) {
+
+      $("#csv_count").text('' + data.result.countCSV);
+      $("#rest_count").text('' + data.result.countRest);
+      $("#hive_count").text('' + data.result.countHive);
+
+      updateTable("query_table", data.result.query)
+    }
+  });
+}
+
+function deleteQuery(id, type){
+
+$.ajax({
+    type: "DELETE",
+    contentType: 'application/json',
+    url: "http://localhost:8080/users/deleteQueries/" + type + "/" + id,
+    success: function (data) {
+      init_page();
+    },
+  });
+}
+
 function fill_connection_dropdown(in_type) {
 
   var user_id = sessionStorage.getItem('user_id');
@@ -228,7 +283,7 @@ $(document).ready(function () {
   $('.step .step-content').on('click', function (e) {
     e.stopPropagation();
   });
-
+ 
   $('.step').on('click', function () {
     if (!$(this).hasClass("minimized")) {
       curOpen = null;
@@ -250,43 +305,6 @@ $(document).ready(function () {
     }
   });
 
-  function init_page() {
-    function updateTable(tableId, jsonData) {
-
-      var tableHTML = "<tr>";
-      for (var headers in jsonData[0]) {
-        tableHTML += "<th>" + headers + "</th>";
-      }
-      tableHTML += "</tr>";
-
-      for (var eachItem in jsonData) {
-        tableHTML += "<tr>";
-        var dataObj = jsonData[eachItem];
-        for (var eachValue in dataObj) {
-          tableHTML += "<td>" + dataObj[eachValue] + "</td>";
-        }
-        tableHTML += "</tr>";
-      }
-
-      document.getElementById(tableId).innerHTML = tableHTML;
-    }
-
-    var user_id = sessionStorage.getItem('user_id');
-
-    $.ajax({
-      type: "GET",
-      contentType: 'application/json',
-      url: "http://localhost:8080/users/getAllQueries/" + user_id,
-      success: function (data) {
-
-        $("#csv_count").text('' + data.result.countCSV);
-        $("#rest_count").text('' + data.result.countRest);
-        $("#hive_count").text('' + data.result.countHive);
-
-        updateTable("query_table", data.result.query)
-      }
-    });
-  }
 
   $("#saveQuery").click(function () {
 

@@ -1,0 +1,132 @@
+<%- contentFor('content') %>
+
+<style>
+        #htmleditor,
+        #csseditor,
+        #jseditor,
+        #resulteditor {
+                height: 350px;
+                width: 100%;
+                display: inline-block;
+                background-color: #5a5c69;
+        }
+
+        #result{
+                height: 350px;
+                width: 100%;
+                background-color: white;
+
+        }
+        .box {
+
+                /* Allow box to grow and shrink, and ensure they are all equally sized */
+                flex: 1 1 auto;
+        }
+
+        .wrapper {
+                height: 50%;
+                width: 100%;
+                /* Use flexbox */
+                display: flex;
+        }
+
+        .handler {
+                padding: 0;
+                cursor: ew-resize;
+                flex: 0 0 auto;
+        }
+
+        .handler::before {
+                content: '';
+                display: block;
+                width: 10px;
+                height: 100%;
+                background: #5a5c69;
+                margin: 0 auto;
+        }
+
+        .nav-link {
+                color: white
+        }
+</style>
+
+<div class="wrapper">
+        <div class="box">
+                <div>
+                        <div id="htmleditor">
+                                <a class="nav-link"><i class="fab fa-html5"></i><span> HTML</span></a>
+                                <textarea id="htmltextarea"> </textarea>
+
+                        </div>
+                        <div id="csseditor">
+                                <a class="nav-link"><i class="fab fa-css3-alt"></i><span> CSS</span></a>
+
+                                <textarea id="csstextarea"></textarea>
+                        </div>
+
+                </div>
+        </div>
+        <div class="handler"></div>
+        <div class="box">
+                <div>
+                        <div id="jseditor">
+                                <a class="nav-link"><i class="fab fa-js"></i><span> JavaScript</span></a>
+
+                                <textarea id="jstextarea"></textarea>
+                        </div>
+                        <div id="resulteditor">
+                                <a class="nav-link"><i class="fas fa-poll"></i><span> Result</span></a>
+
+                                <iframe id="result" frameBorder="0"></iframe>
+                        </div>
+
+                </div>
+
+        </div>
+
+</div>
+
+
+
+<script src="js/app_js/viz.js"></script>
+<script>
+        var handler = document.querySelector('.handler');
+        var wrapper = handler.closest('.wrapper');
+        var boxA = wrapper.querySelector('.box');
+        var isHandlerDragging = false;
+
+        document.addEventListener('mousedown', function (e) {
+                // If mousedown event is fired from .handler, toggle flag to true
+                if (e.target === handler) {
+                        isHandlerDragging = true;
+                }
+        });
+
+        document.addEventListener('mousemove', function (e) {
+                // Don't do anything if dragging flag is false
+                if (!isHandlerDragging) {
+                        return false;
+                }
+
+                // Get offset
+                var containerOffsetLeft = wrapper.offsetLeft;
+
+                // Get x-coordinate of pointer relative to container
+                var pointerRelativeXpos = e.clientX - containerOffsetLeft;
+
+                // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
+                var boxAminWidth = 60;
+
+                // Resize box A
+                // * 8px is the left/right spacing between .handler and its inner pseudo-element
+                // * Set flex-grow to 0 to prevent it from growing
+                boxA.style.width = (Math.max(boxAminWidth, pointerRelativeXpos - 8)) + 'px';
+                boxA.style.flexGrow = 0;
+        });
+
+        document.addEventListener('mouseup', function (e) {
+                // Turn off dragging flag when user mouse is up
+                isHandlerDragging = false;
+        });
+
+</script>
