@@ -1,0 +1,365 @@
+<%- contentFor('content') %>
+<style>
+.isDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
+    :root {
+        --background-color: #FFFFFF;
+        --primary-color: #E66A53;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    .steps {
+        width: 700px;
+        background-color: #FFF;
+        padding: 24px 0;
+        position: relative;
+        margin: auto;
+    }
+
+    .steps::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: 24px;
+        width: 1px;
+        background-color: rgba(0, 0, 0, 0.2);
+        left: calc(50px / 2);
+        z-index: 1;
+    }
+
+    .steps::after {
+        content: '';
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        background-color: var(--primary-color);
+        box-shadow: 0px 0px 5px 0px var(--primary-color);
+        border-radius: 15px;
+        left: calc(50px / 2);
+        bottom: 24px;
+        transform: translateX(-45%);
+        z-index: 2;
+    }
+
+    .step {
+        padding: 0 20px 24px 50px;
+        position: relative;
+        transition: all 0.4s ease-in-out;
+        background-color: #FFF;
+    }
+
+    .step::before {
+        content: '';
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        background-color: rgb(198, 198, 198);
+        border-radius: 15px;
+        left: calc(50px / 2);
+        transform: translateX(-45%);
+        z-index: 2;
+    }
+
+    .step::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        background-color: rgb(198, 198, 198);
+        left: calc(50px / 2);
+        top: 0;
+        z-index: 1;
+    }
+
+    .step.minimized {
+        background-color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .header {
+        user-select: none;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .subheader {
+        user-select: none;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    .step-content {
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .step.minimized>.step-content {
+        height: 0px;
+    }
+
+    .step-content.one {
+        height: 50px;
+        width: 100%;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .step-content.two {
+        height: 600px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .step-content.three {
+        height: 400px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .next-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 0;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: red;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+        color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 0;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: #5a5c69;
+        box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+        color: #FFF;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Irrelevant styling things */
+    .close-btn:hover {
+        background-color: #5a5c69;
+    }
+
+    .close-btn:focus {
+        outline: 0;
+    }
+
+    .next-btn:hover {
+        background-color: rgba(255, 0, 0, 0.6);
+    }
+
+    .next-btn:focus {
+        outline: 0;
+    }
+
+    .step.minimized:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Libraries</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <!-- Dropdown Card Example -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Libraries</h6>
+                <div class="nav-item dropdown">
+                    <button class="btn btn-secondary" data-toggle="modal" data-target="#newLibModal">
+                        New library
+                    </button>
+
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="library_table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Query id</th>
+                                <th>Query type</th>
+                                <th>Query name</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- newLibModal -->
+
+<!-- query MODAL  -->
+<div class="modal fade" id="newLibModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-header">
+
+                            <div class="header">Library details</div>
+                            <div class="subheader">Name
+                                </br>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                        </br>
+
+                            <div class="subheader">Version
+                                </br>
+                                <input type="text" class="form-control" id="version">
+                            </div>
+                        </br>
+
+                            <div class="subheader">Description
+                                </br>
+                                <input type="text" class="form-control" id="description">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step minimized">
+                        <div class="step-header">
+                            <div class="header">Import scripts</div>
+
+                        </div>
+
+
+                        <div class="container">
+                            <table id="scriptsTable" class="table order-list1">
+
+
+                                <thead>
+
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>Value</td>
+                                        <td></td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" style="text-align: left;">
+                                            <input type="button" class="btn btn-lg btn-block " id="addrow1"
+                                                value="Add Row" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                    <div class="step minimized">
+                        <div class="step-header">
+                            <div class="header">Import stylesheets</div>
+
+                        </div>
+
+
+                        <div class="container">
+                            <table id="styleTable" class="table order-list">
+
+
+                                <thead>
+
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>Value</td>
+                                        <td></td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" style="text-align: left;">
+                                            <input type="button" class="btn btn-lg btn-block " id="addrow"
+                                                value="Add Row" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="step minimized">
+                        <div class="step-header">
+                            <div class="header">Finish</div>
+                        </div>
+
+
+                    </br></br>
+                        <span class="close-btn" id="saveQuery">Import library</span>
+                        </a>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END query MODAL -->
+
+<script src="js/app_js/libs.js"></script>

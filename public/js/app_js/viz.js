@@ -11,6 +11,7 @@ $(document).ready(function () {
     editorhtml.on('change', function () {
         // get value right from instance
         console.log("html mudou");
+        updateVizData(viz_id);
     });
 
     var editorcss = CodeMirror.fromTextArea(document.getElementById('csstextarea'), {
@@ -22,6 +23,8 @@ $(document).ready(function () {
     editorcss.on('change', function () {
         // get value right from instance
         console.log("css mudou");
+        updateVizData(viz_id);
+
     });
     var editorjs = CodeMirror.fromTextArea(document.getElementById('jstextarea'), {
         mode: "javascript",
@@ -32,8 +35,29 @@ $(document).ready(function () {
     editorjs.on('change', function () {
         // get value right from instance
         console.log("js mudou");
+
+        updateVizData(viz_id);
+
     });
     getVizData(viz_id, true);
+
+    function updateVizData(viz_id){
+        var reqJson = {
+            "css":editorcss.getValue(),
+            "js":editorjs.getValue(),
+            "html":editorhtml.getValue()
+        }
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "http://localhost:8080/viz/updateViz/" + viz_id,
+            data: JSON.stringify(reqJson),
+            success: function (data) {
+                console.log(data.result.all);
+                document.getElementById('result').src = "data:text/html;charset=utf-8," + escape(data.result.all);
+            }
+        });
+    }
 
     function getVizData(viz_id, all){
         $.ajax({

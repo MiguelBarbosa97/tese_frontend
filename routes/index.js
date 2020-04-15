@@ -25,5 +25,8 @@ router.get('/visualization', function(req, res, next) {
 router.get('/dataVisualizations', function(req, res, next) {
   res.render('pages/datavisualization')
 })
+router.get('/libraries', function(req, res, next) {
+  res.render('pages/libraries')
+})
 
 module.exports = router
