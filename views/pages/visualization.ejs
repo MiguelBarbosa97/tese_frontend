@@ -11,12 +11,13 @@
                 background-color: #5a5c69;
         }
 
-        #result{
+        #result {
                 height: 350px;
                 width: 100%;
                 background-color: white;
 
         }
+
         .box {
 
                 /* Allow box to grow and shrink, and ensure they are all equally sized */
@@ -48,8 +49,105 @@
         .nav-link {
                 color: white
         }
-</style>
 
+        .my-select {
+                background-color: #5a5c69;
+                color: white;
+                padding: .375rem .75rem;
+                text-align: center;
+                font-size: 1rem;
+                line-height: 1.5;
+        }
+
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800" contenteditable="true" id="nameViz"> </h1>
+
+        <div>
+                <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#libModal">
+                        <span class="icon text-white-50">
+                                <i class="fas fa-archive"></i>
+                        </span>
+                        <span class="text">Libraries</span>
+                </a>
+                <a id="create" class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#loadModal">
+                        <span class="icon text-white-50">
+                                <i class="fas fa-table"></i>
+                        </span>
+                        <span class="text">Get Data</span>
+                </a>
+                <a class="btn btn-dark btn-icon-split">
+                        <span class="icon text-white-50">
+                                <i class="fas fa-tint"></i>
+                        </span>
+                        <select class="my-select" onchange="selectTheme()" id="selectTheme">
+                                <option value="3024-day">3024-day</option>
+                                <option value="3024-night">3024-night</option>
+                                <option value="abcdef">abcdef</option>
+                                <option value="ambiance">ambiance</option>
+                                <option value="ayu-dark">ayu-dark</option>
+                                <option value="ayu-mirage">ayu-mirage</option>
+                                <option value="base16-dark">base16-dark</option>
+                                <option value="base16-light">base16-light</option>
+                                <option value="bespin">bespin</option>
+                                <option value="blackboard">blackboard</option>
+                                <option value="cobalt">cobalt</option>
+                                <option value="colorforth">colorforth</option>
+                                <option value="darcula">darcula</option>
+                                <option value="dracula" selected>dracula</option>
+                                <option value="duotone-dark">duotone-dark</option>
+                                <option value="duotone-light">duotone-light</option>
+                                <option value="eclipse">eclipse</option>
+                                <option value="elegant">elegant</option>
+                                <option value="erlang-dark">erlang-dark</option>
+                                <option value="gruvbox-dark">gruvbox-dark</option>
+                                <option value="hopscotch">hopscotch</option>
+                                <option value="icecoder">icecoder</option>
+                                <option value="idea">idea</option>
+                                <option value="isotope">isotope</option>
+                                <option value="lesser-dark">lesser-dark</option>
+                                <option value="liquibyte">liquibyte</option>
+                                <option value="lucario">lucario</option>
+                                <option value="material">material</option>
+                                <option value="material-darker">material-darker</option>
+                                <option value="material-palenight">material-palenight</option>
+                                <option value="material-ocean">material-ocean</option>
+                                <option value="mbo">mbo</option>
+                                <option value="mdn-like">mdn-like</option>
+                                <option value="midnight">midnight</option>
+                                <option value="monokai">monokai</option>
+                                <option value="moxer">moxer</option>
+                                <option value="neat">neat</option>
+                                <option value="neo">neo</option>
+                                <option value="night">night</option>
+                                <option value="nord">nord</option>
+                                <option value="oceanic-next">oceanic-next</option>
+                                <option value="panda-syntax">panda-syntax</option>
+                                <option value="paraiso-dark">paraiso-dark</option>
+                                <option value="paraiso-light">paraiso-light</option>
+                                <option value="pastel-on-dark">pastel-on-dark</option>
+                                <option value="railscasts">railscasts</option>
+                                <option value="rubyblue">rubyblue</option>
+                                <option value="seti">seti</option>
+                                <option value="shadowfox">shadowfox</option>
+                                <option value="solarized dark">solarized dark</option>
+                                <option value="solarized light">solarized light</option>
+                                <option value="the-matrix">the-matrix</option>
+                                <option value="tomorrow-night-bright">tomorrow-night-bright</option>
+                                <option value="tomorrow-night-eighties">tomorrow-night-eighties</option>
+                                <option value="ttcn">ttcn</option>
+                                <option value="twilight">twilight</option>
+                                <option value="vibrant-ink">vibrant-ink</option>
+                                <option value="xq-dark">xq-dark</option>
+                                <option value="xq-light">xq-light</option>
+                                <option value="yeti">yeti</option>
+                                <option value="yonce">yonce</option>
+                                <option value="zenburn">zenburn</option>
+                        </select>
+                </a>
+        </div>
+
+</div>
 <div class="wrapper">
         <div class="box">
                 <div>
@@ -85,10 +183,79 @@
         </div>
 
 </div>
+<!-- LIB MODAL  -->
+<div class="modal fade" id="libModal" role="dialog">
+        <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content border-bottom-dark">
+                        <div class="modal-body">
+                                <div class="form-group">
+                                        <label for="exampleInputPassword1">Select libraries to import</label>
+                                        <br>
+                                        <div class="container">
+                                                <div class="row">
+                                                  <div class="col-12">
+                                                    <table class="table">
+                                                      <tbody id ="tableLib">
+                                                        
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                </div>
+
+                                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                                        <span class="text" id="import_lib">Import</span>
+                                </a>
+                        </div>
+                </div>
+        </div>
+</div>
+<!-- END LIB MODAL -->
+
+
+<!-- LOAD DATA MODAL  -->
+<div class="modal fade" id="loadModal" role="dialog">
+        <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content border-bottom-dark">
+                        <div class="modal-body">
+                                <div class="form-group">
+                                        <label for="exampleInputPassword1">Select query to import</label>
+                                        <br>
+                                        <div class="container">
+                                                <div class="row">
+                                                  <div class="col-12">
+                                                    <table class="table">
+                                                      <tbody id ="tableLoad">
+                                                        
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                </div>
+
+                                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                                        <span class="text" id="import_load">Import</span>
+                                </a>
+                        </div>
+                </div>
+        </div>
+</div>
+<!-- END Load data MODAL -->
 
 
 
 <script src="js/app_js/viz.js"></script>
+
+
+
 <script>
         var handler = document.querySelector('.handler');
         var wrapper = handler.closest('.wrapper');
