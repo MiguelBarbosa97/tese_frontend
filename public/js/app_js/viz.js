@@ -91,6 +91,8 @@ $(document).ready(function () {
             url: "http://localhost:8080/viz/getViz/" + viz_id + "/" + user_id,
             success: function (data) {
 
+                console.log(data.result.all);
+
                 document.getElementById("nameViz").innerHTML = data.result.name;
 
                 if (all == true) {
@@ -134,23 +136,20 @@ $(document).ready(function () {
     }
 
     function getLoad(viz_id, user_id) {
-
         $.ajax({
             type: "GET",
             contentType: 'application/json',
-            url: "http://localhost:8080/viz/getQueries/" + viz_id + "/"  + user_id,
+            url: "http://localhost:8080/viz/getQueries/" + viz_id + "/" + user_id,
             success: function (data) {
-                
                 var htmlAdd = '';
                 for (var i = 0; i < data.result.length; i++) {
                     var check = '';
                     if (data.result[i].used == true) {
                         check = 'checked';
                     }
-
                     htmlAdd += '<tr> <td> <div class="custom-control custom-checkbox">';
-                    htmlAdd += '<input type="checkbox" class="custom-control-input" name="queryIds[]" id="loadcheck' + i +
-                                 '" value="' + data.result[i].idQuery + "&"+ data.result[i].type  + '" ' + check + '>';
+                    htmlAdd += '<input type="radio" class="custom-control-input" name="queryIds[]" id="loadcheck' + i +
+                        '" value="' + data.result[i].idQuery + "&" + data.result[i].type + '" ' + check + '>';
                     htmlAdd += '<label class="custom-control-label" for="loadcheck' + i + '"></label></div></td>';
                     htmlAdd += '<td>' + data.result[i].type + '</td>';
                     htmlAdd += '<td>' + data.result[i].name + '</td></tr>';
@@ -163,23 +162,23 @@ $(document).ready(function () {
     }
 
     $("#import_lib").click(function () {
-        
+
         var allChecks = document.getElementsByName('libsIds[]');
 
         var libsIds = [];
-        for(var i= 0; i< allChecks.length; i++){
-            if(allChecks[i].checked == true){
+        for (var i = 0; i < allChecks.length; i++) {
+            if (allChecks[i].checked == true) {
                 libsIds.push(parseInt(allChecks[i].value));
             }
         }
         reqJson = {
-            "idLibs" : libsIds
-            };
+            "idLibs": libsIds
+        };
 
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "http://localhost:8080/libs/setLibs/"+ viz_id,
+            url: "http://localhost:8080/libs/setLibs/" + viz_id,
             data: JSON.stringify(reqJson),
             success: function (data) {
                 getVizData(viz_id, false);
@@ -188,15 +187,59 @@ $(document).ready(function () {
                     title: "Imported",
                     showConfirmButton: false,
                     timer: 1000
-                  })
-              $('#libModal').modal('hide');
-              
-      
+                })
+                $('#libModal').modal('hide');
+
+
             }
         });
         console.log(libsIds);
 
     });
 
+
+    $("#import_load").click(function () {
+        var allChecks = document.getElementsByName('queryIds[]');
+        var libsIds;
+        for (var i = 0; i < allChecks.length; i++) {
+            if (allChecks[i].checked == true) {
+
+                libsIds = allChecks[i].value;
+            }
+        }
+        var fields = libsIds.split('&');
+
+        var id = fields[0];
+        var type = fields[1];
+
+        var req = {
+            "queryId":  id,
+            "queryType": type,
+            "userId": user_id,
+            "vizId":viz_id
+        };
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "http://localhost:8080/viz/updateQuery",
+            data: JSON.stringify(req),
+            success: function (data) {
+
+                console.log("deu");
+
+                getVizData(viz_id, false);
+
+                Swal.fire({
+                    position: 'top-end',
+                    title: "Imported",
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                $('#loadModal').modal('hide');
+            }
+        });
+        console.log(req);
+
+    });
 });
 
