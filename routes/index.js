@@ -64,4 +64,9 @@ router.get('/libraries', function(req, res, next) {
   res.render('pages/libraries')
 })
 
+router.get('/marketplace', function(req, res, next) {
+  res.render('pages/marketplace')
+})
+
+
 module.exports = router

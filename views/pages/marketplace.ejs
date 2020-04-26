@@ -1,0 +1,82 @@
+<%- contentFor('content') %>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Marketplace</h1>
+</div>
+
+<style>
+    .filter-button {
+        font-size: 18px;
+        border: 1px solid #5a5c69;
+        border-radius: 5px;
+        text-align: center;
+        color: #5a5c69;
+        margin-bottom: 30px;
+
+    }
+
+    .filter-button:hover {
+        font-size: 18px;
+        border: 1px solid #5a5c69;
+        border-radius: 5px;
+        text-align: center;
+        color: #ffffff;
+        background-color: #5a5c69;
+
+    }
+
+    .btn-default:active .filter-button:active {
+        background-color: #5a5c69;
+        color: white;
+    }
+
+    .port-image {
+        width: 100%;
+    }
+
+    .gallery_product {
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+
+        <div align="center" id="allFilters">
+
+
+        </div>
+        <br />
+
+    </div>
+    <div class="row" id="chartimage">
+
+
+
+    </div>
+</div>
+</section>
+<script src="js/app_js/market.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(".filter-button").click(function () {
+            var value = $(this).attr('data-filter');
+
+            if (value == "all") {
+                $('.filter').show('1000');
+            }
+            else {
+                $(".filter").not('.' + value).hide('3000');
+                $('.filter').filter('.' + value).show('3000');
+
+            }
+        });
+
+        if ($(".filter-button").removeClass("active")) {
+            $(this).removeClass("active");
+        }
+        $(this).addClass("active");
+
+    });
+</script>
