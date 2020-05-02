@@ -1,9 +1,17 @@
 <%- contentFor('content') %>
 
 <style>
+    .isDisabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+
     a {
         color: white
     }
+
+
 </style>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Visualizations</h1>
@@ -29,11 +37,11 @@
             <div class="modal-body">
                 <h3>Share in marketplace</h3>
                 <input type="hidden" id="idViz" name="idViz" class="form-control col-md-4" />
-               
+
                 <div class="form-group col-md-12">
                     <label for="categories">Category</label>
                     <select id="categories" class="form-control">
-                      
+
                     </select>
                 </div>
 
@@ -44,6 +52,14 @@
                     </textarea>
 
                 </div>
+
+                <div class="form-group col-md-12">
+                    <label>Tags</label>
+                    <br>
+                    <input type="text" id="multiTag" data-role="tagsinput" />
+
+                </div>
+
                 <a href="#" class="btn btn-success btn-icon-split btn-sm">
 
                     <span class="text" id="shareMarket">Share</span>

@@ -72,6 +72,8 @@ function loadPage() {
                     var type = 'dark';
                     if (allValuesSecondLevel[p].type == 1) {
                         type = 'primary';
+                    }else if(allValuesSecondLevel[p].type == 2){
+                        type = 'warning';
                     }
 
                     htmlToAdd += '<div class="col-xl-3 col-md-6 mb-4">';
@@ -89,10 +91,18 @@ function loadPage() {
                     htmlToAdd += '<a onclick="cloneViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-copy fa-2x text-gray-600"></i></a>';
                     htmlToAdd += '</div><br>';
                     htmlToAdd += '<div class="row">';
-                    htmlToAdd += '<a onclick="shareViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-share-alt fa-2x text-gray-600"></i></a>';
+                    if(allValuesSecondLevel[p].type == 2){
+                        htmlToAdd += '<a><i class="fas fa-share-alt fa-2x text-gray-600 isDisabled"></i></a>';
+                    }else{
+                        htmlToAdd += '<a onclick="shareViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-share-alt fa-2x text-gray-600"></i></a>';
+                    }
                     htmlToAdd += '</div><br>';
                     htmlToAdd += '<div class="row">';
-                    htmlToAdd += '<a onclick="deleteViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-trash fa-2x text-gray-600"></i></a>';
+                    if(allValuesSecondLevel[p].type == 2){
+                    htmlToAdd += '<a><i class="fas fa-trash fa-2x text-gray-600 isDisabled"></i></a>';
+                    }else{
+                        htmlToAdd += '<a onclick="deleteViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-trash fa-2x text-gray-600"></i></a>';
+                    }
                     htmlToAdd += '</div></div></div></div></div></div>'
                 }
                 htmlToAdd += '</div>';
@@ -128,11 +138,13 @@ $(document).ready(function () {
         var description = document.getElementById("description").value;
         var e = document.getElementById("categories");
         var strUser = e.options[e.selectedIndex].value;
+        var tags = document.getElementById("multiTag").value;
         var reqJson= {
             "idViz": viz_id,
             "idCategory": strUser,
             "description": description,
-            "idUser": user_id
+            "idUser": user_id,
+            "tags": tags
         }
         
         $.ajax({
@@ -147,6 +159,7 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 1000
               })
+              loadPage();
               $('#shareModal').modal('hide');
       
             },

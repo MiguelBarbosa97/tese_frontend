@@ -11,6 +11,7 @@
         text-align: center;
         color: #5a5c69;
         margin-bottom: 30px;
+        margin: 4px;
 
     }
 
@@ -36,6 +37,14 @@
     .gallery_product {
         margin-bottom: 30px;
     }
+
+    .topright {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index:10;
+
+    }
 </style>
 
 <div class="container">
@@ -58,25 +67,22 @@
 </section>
 <script src="js/app_js/market.js"></script>
 <script>
-    $(document).ready(function () {
 
-        $(".filter-button").click(function () {
-            var value = $(this).attr('data-filter');
-
-            if (value == "all") {
-                $('.filter').show('1000');
-            }
-            else {
-                $(".filter").not('.' + value).hide('3000');
-                $('.filter').filter('.' + value).show('3000');
-
-            }
-        });
-
-        if ($(".filter-button").removeClass("active")) {
-            $(this).removeClass("active");
+    function filter(value) {
+        if (value == "all") {
+            $('.filter').show('1000');
         }
-        $(this).addClass("active");
+        else {
+            $(".filter").not('.' + value).hide('3000');
+            $('.filter').filter('.' + value).show('3000');
 
-    });
+        }
+    }
+
+    if ($(".filter-button").removeClass("active")) {
+        $(this).removeClass("active");
+    }
+    $(this).addClass("active");
+
+
 </script>
