@@ -67,6 +67,8 @@ router.get('/libraries', function(req, res, next) {
 router.get('/marketplace', function(req, res, next) {
   res.render('pages/marketplace')
 })
-
+router.get('/dashboard', function(req, res, next) {
+  res.render('pages/dashboard')
+})
 
 module.exports = router
