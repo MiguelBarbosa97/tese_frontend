@@ -281,6 +281,27 @@
 
 </div>
 
+
+<!-- preview modal -->
+<div class="modal fade" id="preview" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-header">
+                Preview Data - First 15 rows
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="previewtable" width="100%" cellspacing="0">
+                 
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end preview modal -->
+
 <!-- query MODAL  -->
 <div class="modal fade" id="newQueryWizardModal" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -345,7 +366,7 @@
                             <div class="step-header">
                                 <div class="header">Select columns</div>
                             </div>
-                            
+
                             <select id="selectedColumns" name="selectedColumns[]" multiple="multiple"
                                 class="form-control input-sm">
 
@@ -362,20 +383,20 @@
 
                             <div class="container">
                                 <table id="myTable" class=" table order-list">
-                                   
-                     
-                                      <thead>
-                                  
+
+
+                                    <thead>
+
                                         <tr>
-                                            <td >Column</td>
-                                            <td >Value</td>
-                                            <td ></td>
+                                            <td>Column</td>
+                                            <td>Value</td>
+                                            <td></td>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      
-                                        
+
+
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -399,9 +420,7 @@
                                 <div class="header">SQL Snippet</div>
                                 <div class="subheader"></div>
                             </div>
-                            <div class="step-content one">
-                                <button class="next-btn">Next</button>
-                            </div>
+                            <textarea id="sqlarea"></textarea>
                         </div>
 
                     </div>
@@ -414,7 +433,7 @@
                             <option value="true">Yes</option>
                             <option value="false">No</option>
                         </select>
-                    </br>
+                        </br>
                         <div class="subheader">Query Name</div>
                         <input type="text" id="queryName" name="queryName" class="form-control" />
 
@@ -425,9 +444,9 @@
                             <div class="header">Finish</div>
                         </div>
 
-                        
-                            
-                            <span class="close-btn" id="saveQuery">Save Query</span>
+
+
+                        <span class="close-btn" id="saveQuery">Save Query</span>
                         </a>
                     </div>
 
@@ -440,13 +459,45 @@
 </div>
 
 <!-- END query MODAL -->
+
+
+<!-- SHARE MODAL  -->
+<div class="modal fade" id="shareModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+                <div class="form-group">
+                    <form>
+                        <input type="hidden" id="connectionIdShare" name="connectionIdShare">
+
+                        <input type="hidden" id="pathShare" name="pathShare">
+
+                        <label for="exampleInputPassword1">Select users to share</label>
+                        <select id="allUsers" name="allUsers[]" multiple="multiple" class="form-control input-sm">
+
+
+                        </select>
+                        </br>
+                        <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                            <span class="text" id="share_connection">Share Connection</span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SHARE MODAL -->
 <script>
 
     function handleSelectionTableHive(value) {
 
         fill_column_dropdown_hive(value);
     }
-  
+
     function handleSelectionConnection(value) {
         fill_table_dropdown(value);
         var e = document.getElementById("connectionType");
@@ -470,7 +521,7 @@
         var sql = document.getElementById("SQLView");
 
         clear_columns();
-        
+
         if (choice === "Hive") {
             fill_connection_dropdown("Hive");
             x.style.display = "block";
@@ -488,7 +539,7 @@
             fill_connection_dropdown("Rest");
             x.style.display = "none";
             y.style.display = "none";
-                        
+
             ui.style.display = "block";
             sql.style.display = "none";
         }

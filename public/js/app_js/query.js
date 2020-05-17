@@ -5,30 +5,58 @@ document.getElementById("wizardHide").style.display = "none";
 document.getElementById("hiveTableHide").style.display = "none";
 
 
-function init_page() {
-  function updateTable(tableId, jsonData) {
+var editorsql = CodeMirror.fromTextArea(document.getElementById('sqlarea'), {
+  mode: "sql",
+  theme: "3024-day",
+});
+function updateTable(tableId, jsonData) {
 
-    var tableHTML = "<tr>";
-    for (var headers in jsonData[0]) {
-      tableHTML += "<th>" + headers + "</th>";
+  var tableHTML = "<tr>";
+  for (var headers in jsonData[0]) {
+    tableHTML += "<th>" + headers + "</th>";
+  }
+  tableHTML += "<th>Actions</th>";
+
+  tableHTML += "</tr>";
+
+  for (var eachItem in jsonData) {
+    tableHTML += "<tr>";
+    var dataObj = jsonData[eachItem];
+    for (var eachValue in dataObj) {
+      tableHTML += "<td>" + dataObj[eachValue] + "</td>";
     }
-    tableHTML += "<th>Actions</th>";
+    tableHTML +=  '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-share-alt"></i></a><a></a>  <a href="#" class="btn btn-warning btn-circle btn-sm" onclick="previewQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="far fa-eye"></i></a></td>';
 
     tableHTML += "</tr>";
+  }
 
-    for (var eachItem in jsonData) {
-      tableHTML += "<tr>";
-      var dataObj = jsonData[eachItem];
-      for (var eachValue in dataObj) {
-        tableHTML += "<td>" + dataObj[eachValue] + "</td>";
-      }
-      tableHTML +=  '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-share-alt"></i></a><a></a>  <a href="#" class="btn btn-warning btn-circle btn-sm" onclick="previewQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="far fa-eye"></i></a></td>';
+  document.getElementById(tableId).innerHTML = tableHTML;
+}
+function updateTablepreview(tableId, jsonData) {
 
-      tableHTML += "</tr>";
+  var tableHTML = "<tr>";
+  for (var headers in jsonData[0]) {
+    tableHTML += "<th>" + headers + "</th>";
+  }
+
+  tableHTML += "</tr>";
+
+  for (var eachItem in jsonData) {
+    tableHTML += "<tr>";
+    var dataObj = jsonData[eachItem];
+    for (var eachValue in dataObj) {
+      tableHTML += "<td>" + dataObj[eachValue] + "</td>";
     }
 
-    document.getElementById(tableId).innerHTML = tableHTML;
+    tableHTML += "</tr>";
   }
+
+  document.getElementById(tableId).innerHTML = tableHTML;
+}
+
+
+
+function init_page() {
 
   var user_id = sessionStorage.getItem('user_id');
 
@@ -58,6 +86,63 @@ $.ajax({
     },
   });
 }
+
+function previewQuery(id, type){
+  $.ajax({
+    type: "GET",
+    contentType: 'application/json',
+    url: "http://localhost:8080/users/preview/" + type + "/" + id,
+    success: function (data) {
+      $("#preview").modal();
+      var text = '{ "data":[' + data.result + ']}';
+      var json = JSON.parse(text);
+      
+      updateTablepreview("previewtable", json.data);
+    },
+  });
+
+}
+
+function shareQuery(id, type) {
+  var user_id = sessionStorage.getItem('user_id');
+
+  var url = '';
+  if (type == 'Hive') {
+    url = '/hive/shareQuery';
+
+  } else if (type == 'rest') {
+    url = '/RestClient/shareQuery';
+  } else if (type == 'csv') {
+    url = '/csv/shareQuery';
+  }
+
+  document.getElementById("pathShare").value = url;
+  document.getElementById("connectionIdShare").value = id;
+
+  var select = document.getElementById("allUsers");
+  var length = select.options.length;
+  for (i = length - 1; i >= 0; i--) {
+    select.options[i] = null;
+  }
+  $.ajax({
+    type: "GET",
+    contentType: 'application/json',
+    url: "  http://localhost:8080/users/getUsersToShare/" + user_id,
+    success: function (data) {
+      var new_array = data.result;
+      if (new_array.length > 0) {
+        for (var i = 0; i < new_array.length; i++) {
+          var option = document.createElement('option');
+          option.text = new_array[i].name;
+          option.value = new_array[i].iduser;
+          select.add(option, 0);
+        }
+      }
+    }
+  });
+  $("#shareModal").modal();
+}
+
 
 function fill_connection_dropdown(in_type) {
 
@@ -329,7 +414,6 @@ $(document).ready(function () {
 
     var filterArray = [];
     var lengthfilter = document.getElementById("myTable").tBodies[0].rows.length;
-   
     
     for (var i = 0; i < lengthfilter; i++) {
       element = [document.getElementById("columns_filter" + i).options[document.getElementById("columns_filter" + i).selectedIndex].value, document.getElementById("value_filter" + i).value];
@@ -393,7 +477,15 @@ $(document).ready(function () {
           "queryname": queryName
         };
         var url  = "http://localhost:8080/hive/SaveQuery";
-      }
+      }else{
+        var query = editorsql.getValue();
+        var reqJson= {
+          "query": query,
+          "hiveService": connectionID,
+          "cache": cacheResults,
+          "queryname": queryName
+        };
+        var url  = "http://localhost:8080/hive/SaveQuery";      }
     }
 
 
@@ -425,6 +517,50 @@ $(document).ready(function () {
       },
     });
 
+  });
+
+  $("#share_connection").click(function () {
+
+    var pathToShare = document.getElementById("pathShare").value;
+    var connectionIdShare = document.getElementById("connectionIdShare").value;
+
+    var lengthColumns = document.getElementById("allUsers").options.length;
+    var selected = [];
+
+    for (var i = 0; i < lengthColumns; i++) {
+      elementList = document.getElementById("allUsers").options[i];
+
+      if (elementList.selected == true) {
+        selected.push(elementList.value);
+      }
+
+    }
+
+    var reqJSON = {
+      "idConnection": connectionIdShare,
+      "idUserShare": selected
+    };
+    var url = "http://localhost:8080" + pathToShare;
+
+    console.log(url);
+
+    $.ajax({
+      type: "POST",
+      contentType: 'application/json',
+      url: url,
+      data: JSON.stringify(reqJSON),
+
+      success: function (data) {
+        init_page();
+        Swal.fire({
+          position: 'top-end',
+          title: JSON.stringify(data.message).slice(1, -1),
+          showConfirmButton: false,
+          timer: 1000
+        })
+        $('#shareModal').modal('hide');
+      },
+    });
   });
 
   init_page();

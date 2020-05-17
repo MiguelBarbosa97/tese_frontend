@@ -15,7 +15,7 @@ function init_page() {
       for (var eachValue in dataObj) {
         tableHTML += "<td>" + dataObj[eachValue] + "</td>";
       }
-      tableHTML +=  '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteCon('+dataObj.id+',\''+dataObj.type+'\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareCon('+dataObj.id+',\''+dataObj.type+'\')"> <i class="fas fa-share-alt"></i></a></td>';
+      tableHTML += '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteCon(' + dataObj.id + ',\'' + dataObj.type + '\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareCon(' + dataObj.id + ',\'' + dataObj.type + '\')"> <i class="fas fa-share-alt"></i></a></td>';
 
       tableHTML += "</tr>";
     }
@@ -40,16 +40,16 @@ function init_page() {
   });
 }
 
-function deleteCon(id, type){
+function deleteCon(id, type) {
 
   var url = '';
-  if(type == 'Hive'){
-    url = '/hive/DeleteConnection/' +id; 
+  if (type == 'Hive') {
+    url = '/hive/DeleteConnection/' + id;
 
-  }else if(type == 'Rest'){
-    url = '/RestClient/DeleteConnection/' +id; 
-  }else if(type == 'CSV'){
-    url = '/csv/delete/' +id; 
+  } else if (type == 'Rest') {
+    url = '/RestClient/DeleteConnection/' + id;
+  } else if (type == 'CSV') {
+    url = '/csv/delete/' + id;
   }
 
   $.ajax({
@@ -62,21 +62,21 @@ function deleteCon(id, type){
   });
 }
 
-function shareCon(id, type){
+function shareCon(id, type) {
   var user_id = sessionStorage.getItem('user_id');
 
   var url = '';
-  if(type == 'Hive'){
-    url = '/hive/shareConnection'; 
+  if (type == 'Hive') {
+    url = '/hive/shareConnection';
 
-  }else if(type == 'Rest'){
-    url = '/RestClient/shareConnection'; 
-  }else if(type == 'CSV'){
-    url = '/csv/shareConnection'; 
+  } else if (type == 'Rest') {
+    url = '/RestClient/shareConnection';
+  } else if (type == 'CSV') {
+    url = '/csv/shareConnection';
   }
 
   document.getElementById("pathShare").value = url;
-  document.getElementById("connectionIdShare").value = id;  
+  document.getElementById("connectionIdShare").value = id;
 
   var select = document.getElementById("allUsers");
   var length = select.options.length;
@@ -93,7 +93,7 @@ function shareCon(id, type){
         for (var i = 0; i < new_array.length; i++) {
           var option = document.createElement('option');
           option.text = new_array[i].name;
-          option.value =  new_array[i].iduser;
+          option.value = new_array[i].iduser;
           select.add(option, 0);
         }
       }
@@ -104,12 +104,28 @@ function shareCon(id, type){
 }
 
 $(document).ready(function () {
-  // const Swal = require('sweetalert2')
-  // import Swal from 'sweetalert2'
+  counter = 1;
+  $("#addrow").on("click", function () {
+
+    var newRow = $("<tr>");
+    var cols = "";
+
+    cols += '<td> ' + counter + '</td>';
+    cols += '<td><input type="text" id="value_filter' + counter + '" name="value_filter' + counter + '" class="form-control" /></td>';
+    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger " value="X"></td>';
+    newRow.append(cols);
+    $("table.order-list").append(newRow);
+    counter++;
+
+  });
+
+  $("table.order-list").on("click", ".ibtnDel", function (event) {
+    $(this).closest("tr").remove();
+    counter -= 1
+  });
 
 
 
-  
   init_page();
   $("#save_hive").click(function () {
 
@@ -199,8 +215,9 @@ $(document).ready(function () {
     });
 
   });
-
+  
   $("#test_connection_rest").click(function () {
+
 
     var data_service = {
 
@@ -212,7 +229,6 @@ $(document).ready(function () {
       "authMethod": document.getElementById("auth").value
     };
 
-    alert(JSON.stringify(data_service));
 
     $.ajax({
       type: "POST",
@@ -243,7 +259,13 @@ $(document).ready(function () {
 
   });
 
- $("#save_rest").click(function () {
+  $("#save_rest").click(function () {
+    var lengthfilter = document.getElementById("myTable").tBodies[0].rows.length;
+    var filterArray = '';
+
+    for (var i = 0; i < lengthfilter; i++) {
+      filterArray += document.getElementById("value_filter" + (i+1)).value +',';
+    }
 
     var user_id = sessionStorage.getItem('user_id');
 
@@ -252,10 +274,11 @@ $(document).ready(function () {
       "url": document.getElementById("rest_url").value,
       "method": document.getElementById("rest_method").value,
       "acceptText": "application/json",
-      "name":document.getElementById("rest_name").value,
+      "name": document.getElementById("rest_name").value,
       "userid": user_id,
       "restUsername": document.getElementById("rest_username").value,
       "restPassword": document.getElementById("rest_password").value,
+      "tags": filterArray.slice(0, -1)
     };
     $.ajax({
       type: "POST",
@@ -290,7 +313,7 @@ $(document).ready(function () {
       },
     });
 
-    
+
 
   });
 
@@ -308,7 +331,7 @@ $(document).ready(function () {
     $.ajax({
       type: "POST",
       contentType: false,
-      url: "http://localhost:8080/csv/add/"+user_id,
+      url: "http://localhost:8080/csv/add/" + user_id,
       data: formData,
       processData: false,
       success: function (data) {
@@ -335,7 +358,7 @@ $(document).ready(function () {
       },
     });
 
-    
+
 
   });
 
@@ -347,7 +370,7 @@ $(document).ready(function () {
 
     var lengthColumns = document.getElementById("allUsers").options.length;
     var selected = [];
-    
+
     for (var i = 0; i < lengthColumns; i++) {
       elementList = document.getElementById("allUsers").options[i];
 

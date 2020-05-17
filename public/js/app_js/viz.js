@@ -39,8 +39,6 @@ $(document).ready(function () {
             contentType: 'application/json',
             url: "http://localhost:8080/viz/updateNameViz/" + value + "/" + viz_id,
             success: function (data) {
-                console.log("deu");
-
             }
         });
     }, false);
@@ -224,9 +222,6 @@ $(document).ready(function () {
             url: "http://localhost:8080/viz/updateQuery",
             data: JSON.stringify(req),
             success: function (data) {
-
-                console.log("deu");
-
                 getVizData(viz_id, false);
 
                 Swal.fire({

@@ -1,0 +1,47 @@
+#csseditor,
+#jseditor {
+    height: 250px;
+    width: 450px;
+    display: inline-block;
+    background-color: #5a5c69;
+}
+
+#resulteditor {
+    height: 740px;
+    width: 1200px;
+    display: inline-block;
+    background-color: #5a5c69;
+}
+
+#result {
+    height: 740px;
+    width: 100%;
+    background-color: white;
+
+}
+
+.box {
+
+    /* Allow box to grow and shrink, and ensure they are all equally sized */
+    flex: 2 1 auto;
+}
+
+.wrapper {
+    height: 50%;
+    width: 100%;
+    /* Use flexbox */
+    display: flex;
+}
+
+.handler::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 100%;
+    background: #5a5c69;
+    margin: 0 auto;
+}
+
+.nav-link {
+    color: white
+}

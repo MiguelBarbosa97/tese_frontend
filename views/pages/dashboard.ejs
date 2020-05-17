@@ -1,60 +1,7 @@
 <%- contentFor('content') %>
-<style>
-    /* #htmleditor, */
-    #csseditor,
-    #jseditor {
-        height: 250px;
-        width: 450px;
-        display: inline-block;
-        background-color: #5a5c69;
-    }
 
-    #resulteditor {
-        height: 740px;
-        width: 1200px;
-        display: inline-block;
-        background-color: #5a5c69;
-    }
+<link href="css/dashboard.css" rel="stylesheet">
 
-    #result {
-        height: 740px;
-        width: 100%;
-        background-color: white;
-
-    }
-
-    .draggable {
-        width: 100px;
-        height: 100px;
-        background-color: crimson;
-    }
-
-    .box {
-
-        /* Allow box to grow and shrink, and ensure they are all equally sized */
-        flex: 2 1 auto;
-    }
-
-    .wrapper {
-        height: 50%;
-        width: 100%;
-        /* Use flexbox */
-        display: flex;
-    }
-
-    .handler::before {
-        content: '';
-        display: block;
-        width: 10px;
-        height: 100%;
-        background: #5a5c69;
-        margin: 0 auto;
-    }
-
-    .nav-link {
-        color: white
-    }
-</style>
 <!-- Page Heading -->
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -68,8 +15,12 @@
                 <a class="nav-link"><i class="fas fa-poll"></i><span> Result</span></a>
 
                 <div id="result" class="wrap">
-                    <div class="draggable" id="drag1"></div>
-                    <div class="draggable" id="drag2"></div>
+                    <!-- <div class="draggable" id="drag1">
+                        <h1>ss</h1>
+                    </div>
+                    <div class="draggable" id="drag2">
+                        <h1>sss</h1>
+                    </div> -->
 
                 </div>
 
@@ -84,11 +35,6 @@
 
                 <textarea id="jstextarea"></textarea>
             </div>
-            <!-- <div id="htmleditor">
-                <a class="nav-link"><i class="fab fa-html5"></i><span> HTML</span></a>
-                <textarea id="htmltextarea"> </textarea>
-
-            </div> -->
             <div id="csseditor">
                 <a class="nav-link"><i class="fab fa-css3-alt"></i><span> CSS</span></a>
 
@@ -102,38 +48,5 @@
     </div>
 
 </div>
-<script>
-    $(function(){
-      $('.draggable').draggable({
-        containment : 'parent',
-        start : function(event , ui){
-          $(this).css('background-color','lightblue');
-        },
-        stop : function(event, ui){
-          var id = $(this).attr('id');
-          var jsonElement= {
-            id: id,
-            leftPosition: ui.position.left,
-            topPosition: ui.position.top
-          };
-
-          console.log(jsonElement);
-          $(this).css('background-color','crimson');
-        }
-      });
-      $('.draggable').resizable({
-        handles : "n,s,w,e",
-        stop : function(event , ui){
-          var id = $(this).attr('id');
-          var jsonElement={
-            id:id,
-            width: ui.size.width,
-            height: ui.size.height
-          };
-          console.log(jsonElement)
-        }
-      });
-    });
-  </script>
 
 <script src="js/app_js/dashboard.js"></script>

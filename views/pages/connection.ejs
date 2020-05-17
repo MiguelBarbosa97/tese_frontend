@@ -195,6 +195,31 @@
 
                     </div>
 
+                    <label for="auth">Path to JSON Array</label>
+                    <div class="container">
+                        <table id="myTable" class=" table order-list">
+                              <thead>
+                                <tr>
+                                    <td >Step</td>
+                                    <td >JSON Key</td>
+                                    <td ></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" style="text-align: left;">
+                                        <input type="button" class="btn btn-lg btn-block " id="addrow"
+                                            value="Add Row" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
                     <a href="#" class="btn btn-success btn-icon-split btn-sm">
 
                         <span class="text" id="save_rest">Save</span>
@@ -290,7 +315,6 @@
 <!-- END SHARE MODAL -->
 
 <script>
-
 
     var x = document.getElementById("auth_div");
     x.style.display = "none";
