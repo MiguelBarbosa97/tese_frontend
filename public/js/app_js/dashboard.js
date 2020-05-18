@@ -1,5 +1,5 @@
 var idUser = sessionStorage.getItem('user_id');
-var idDash = 3;
+var idDash = sessionStorage.getItem('id_dashboard');;
 
 var editorcss = CodeMirror.fromTextArea(document.getElementById('csstextarea'), {
     mode: "css",
@@ -32,7 +32,7 @@ $(document).ready(function () {
     $.ajax({
         type: "GET",
         contentType: 'application/json',
-        url: "http://localhost:8080/dashboard/get/3/11",
+        url: "http://localhost:8080/dashboard/get/"+idDash+"/"+idUser,
         success: function (data) {
 
             document.getElementById("result").innerHTML = data.result.html;

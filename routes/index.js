@@ -67,8 +67,14 @@ router.get('/libraries', function(req, res, next) {
 router.get('/marketplace', function(req, res, next) {
   res.render('pages/marketplace')
 })
+router.get('/dashboards', function(req, res, next) {
+  res.render('pages/dashboards')
+})
 router.get('/dashboard', function(req, res, next) {
   res.render('pages/dashboard')
 })
+router.get('/dash/:uid', function(req, res, next) {
 
+  res.render('pages/dash')
+})
 module.exports = router
