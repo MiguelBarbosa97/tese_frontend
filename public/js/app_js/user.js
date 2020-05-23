@@ -3,10 +3,10 @@ $(document).ready(function () {
     // import Swal from 'sweetalert2'
     var user_details = sessionStorage.getItem('user_details');
 
-    if(user_details != null){
-        window.location=("http://localhost:9000/home");
+    if (user_details != null) {
+        window.location = ("http://localhost:9000/home");
     }
-    
+
     $("#sign_up_button").click(function () {
         var json_request = {
             name: document.getElementById("name_sign_up").value,
@@ -28,7 +28,7 @@ $(document).ready(function () {
                     title: data.message,
                     showConfirmButton: false,
                     timer: 1000
-                  })
+                })
             },
             error: function (error) {
                 Swal.fire({
@@ -37,7 +37,7 @@ $(document).ready(function () {
                     title: "Somethin went wrong",
                     showConfirmButton: false,
                     timer: 1000
-                  })
+                })
             },
         });
     });
@@ -49,19 +49,27 @@ $(document).ready(function () {
             username: document.getElementById("username").value,
             password: document.getElementById("password").value,
         }
-    
+
         $.ajax({
             type: "POST",
             contentType: 'application/json',
             url: "http://localhost:8080/users/login",
             data: JSON.stringify(json_request),
             success: function (data) {
-                
+
                 sessionStorage.setItem('user_details', JSON.stringify(data.result));
                 sessionStorage.setItem('user_id', JSON.stringify(data.result.iduser));
                 sessionStorage.setItem('user_name', JSON.stringify(data.result.name));
-
-                window.location=("http://localhost:9000/home");
+                $.ajax({
+                    type: "GET",
+                    contentType: 'application/json',
+                    url: "http://localhost:8080/workspace/getWorkstreamDropdown/" + data.result.iduser,
+                    async: true,
+                    success: function (data) {
+                        sessionStorage.setItem('users_details', JSON.stringify(data.result));
+                        window.location = ("http://localhost:9000/home");
+                    }
+                });
 
             },
             error: function (error) {
@@ -72,10 +80,10 @@ $(document).ready(function () {
                     title: "Somethin went wrong",
                     showConfirmButton: false,
                     timer: 1000
-                  })
+                })
             },
         });
-    
+
     });
 });
 

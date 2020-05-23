@@ -1,9 +1,27 @@
 var idUser = sessionStorage.getItem('user_id');
 var userName = sessionStorage.getItem('user_name');
 
-function shareWorkspace(id){
-    document.getElementById("workstreamId").value= id;
+function shareWorkspace(id) {
+    document.getElementById("workstreamId").value = id;
     $("#loadModaluser").modal()
+}
+
+function deleteWorkspace(id) {
+    $.ajax({
+        type: "DELETE",
+        contentType: 'application/json',
+        url: "http://localhost:8080/workspace/deleteWorkspace/" + id,
+        success: function (data) {
+            Swal.fire({
+                position: 'top-end',
+                title: "Deleted",
+                showConfirmButton: false,
+                timer: 1000
+            });
+            loadLists();
+            loadDropdown();
+        }
+    });
 }
 
 function loadLists() {
@@ -22,12 +40,13 @@ function loadLists() {
                 htmlToAdd += '<h5 class="mb-1">' + data.result[i].workspaceName + '</h5>';
                 htmlToAdd += '<small class="text-muted">' + fields[0] + ' </small></div>';
                 for (p = 0; p < data.result[i].allUsers.length; p++) {
-                    htmlToAdd += '<p class="mb-1">' + data.result[i].allUsers[p]+ '</p>';
+                    htmlToAdd += '<p class="mb-1">' + data.result[i].allUsers[p] + '</p>';
                 }
 
                 htmlToAdd += '<i class="fas fa-user-shield"></i> <small> ' + data.result[i].createdBy + '</small>';
-                if(userName.slice(1,-1) == data.result[i].createdBy){
-                    htmlToAdd += '<span style="float:right;" onclick="shareWorkspace(' + data.result[i].workspaceId + ')"><i class="fas fa-share-alt"></i></span>';
+                if (userName.slice(1, -1) == data.result[i].createdBy) {
+                    htmlToAdd += '<span style="float:right;padding-left:10px;" class="actions" onclick="shareWorkspace(' + data.result[i].workspaceId + ')"><i class="fas fa-share-alt"></i></span>';
+                    htmlToAdd += '<span style="float:right;padding-left:10px;" class="actions" onclick="deleteWorkspace(' + data.result[i].workspaceId + ')"><i class="fas fa-trash"></i></span>';
                 }
 
                 htmlToAdd += '</a>';
@@ -61,7 +80,7 @@ function getLoad(idUser) {
 }
 
 $("#createWorkspace").click(function () {
-console.log("s");
+    console.log("s");
     var req = {
         "idUser": idUser,
         "name": document.getElementById("workspace_name").value
@@ -81,12 +100,18 @@ console.log("s");
                 timer: 1000
             })
             $('#loadModal').modal('hide');
-        }
+        },
+        error: function (error) {
+            Swal.fire({
+                position: 'top-end',
+                title: "Not Allowed",
+                showConfirmButton: false,
+                timer: 1000
+            })
+        },
     });
 
 });
-
-
 
 $("#shareWorkspace").click(function () {
     var allChecks = document.getElementsByName('queryIds[]');
