@@ -86,7 +86,7 @@ function shareCon(id, type) {
   $.ajax({
     type: "GET",
     contentType: 'application/json',
-    url: "  http://localhost:8080/users/getUsersToShare/" + user_id,
+    url: "http://localhost:8080/users/getUsersToShare/" + user_id,
     success: function (data) {
       var new_array = data.result;
       if (new_array.length > 0) {

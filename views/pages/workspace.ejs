@@ -1,0 +1,77 @@
+<%- contentFor('content') %>
+<style>
+    p {
+        padding-left: 4em;
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Workspaces</h1>
+    <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#loadModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-file"></i>
+        </span>
+        <span class="text">New Workspace</span>
+    </a>
+</div>
+<div class="list-group" id="workList">
+
+
+</div>
+
+<!-- LOAD DATA MODAL  -->
+<div class="modal fade" id="loadModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Workspace Name</label>
+                    <input type="text" class="form-control" id="workspace_name" placeholder="Workspace Name">
+                </div>
+
+                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                    <span class="text" id="createWorkspace">Create workspace</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Load data MODAL -->
+
+<!-- LOAD DATA MODAL  -->
+<div class="modal fade" id="loadModaluser" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="hidden" id="workstreamId">
+                    <label for="exampleInputPassword1">Select users to share</label>
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table">
+                                    <tbody id="tableLoad">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                    <span class="text" id="shareWorkspace">Share</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Load data MODAL -->
+
+<script src="js/app_js/workspace.js"></script>

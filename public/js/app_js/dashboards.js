@@ -12,7 +12,11 @@ function changeState(id){
         }
     });
 }
-
+function presentation(guid, id){
+    event.stopPropagation()
+    sessionStorage.setItem('id_dashboard', id);
+    window.location.href = "presentation?id="+guid;
+}
 function deleteDashboard(id) {
     event.stopPropagation()
 
@@ -58,7 +62,7 @@ function loadLists() {
                     htmlToAdd += '<i class="fas fa-eye" onclick="changeState(' + data.result[i].idDashboard + ')"></i><small>Public    </small>';
                 }
 
-                htmlToAdd += '<i class="far fa-bookmark"></i> <small> Presentation mode </small>';
+                htmlToAdd += '<i class="far fa-bookmark" onclick="presentation(\'' + data.result[i].guid + '\','+data.result[i].idDashboard +')"></i> <small> Presentation mode </small>';
                 htmlToAdd += '<span style="float:right;" onclick="deleteDashboard(' + data.result[i].idDashboard + ')"><i class="fas fa-trash"></i></span>';
 
                 htmlToAdd += '</a>';
@@ -67,6 +71,7 @@ function loadLists() {
         }
     });
 }
+
 function getLoad(idUser) {
     $.ajax({
         type: "GET",
