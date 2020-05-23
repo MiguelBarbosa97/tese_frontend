@@ -1,58 +1,59 @@
 <%- contentFor('content') %>
 <style>
-    p {
-        padding-left: 4em;
-    }
+  p {
+    padding-left: 4em;
+  }
 </style>
 <link href="css/dashboard.css" rel="stylesheet">
 
 <!-- Page Heading -->
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboards</h1>
-    <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#loadModal">
-        <span class="icon text-white-50">
-            <i class="fas fa-file"></i>
-        </span>
-        <span class="text">New Dashboard</span>
-    </a>
+  <h1 class="h3 mb-0 text-gray-800">Dashboards</h1>
+  <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#loadModal">
+    <span class="icon text-white-50">
+      <i class="fas fa-file"></i>
+    </span>
+    <span class="text">New Dashboard</span>
+  </a>
 </div>
 
-<div class="list-group" id= "dashList">
+<div class="list-group" id="dashList">
 
 
-  </div>
+</div>
 
-  <!-- LOAD DATA MODAL  -->
+<!-- LOAD DATA MODAL  -->
 <div class="modal fade" id="loadModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content border-bottom-dark">
-                    <div class="modal-body">
-                            <div class="form-group">
-                                    <label for="exampleInputPassword1">Select charts to include</label>
-                                    <br>
-                                    <div class="container">
-                                            <div class="row">
-                                              <div class="col-12">
-                                                <table class="table">
-                                                  <tbody id ="tableLoad">
-                                                    
-                                                  </tbody>
-                                                </table>
-                                              </div>
-                                            </div>
-                                          </div>
-                            </div>
+    <!-- Modal content-->
+    <div class="modal-content border-bottom-dark">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleInputPassword1">Select charts to include</label>
+          <br>
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <table class="table">
+                  <tbody id="tableLoad">
 
-                            <a href="#" class="btn btn-info btn-icon-split btn-sm">
-
-                                    <span class="text" id="createDashboard">Create dashboard</span>
-                            </a>
-                    </div>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+          <span class="text" id="createDashboard">Create dashboard</span>
+        </a>
+      </div>
     </div>
+  </div>
 </div>
 <!-- END Load data MODAL -->
-  <script src="js/app_js/dashboards.js"></script>
+<script src="js/app_js/workspaceNormal.js"></script>
+<script src="js/app_js/dashboards.js"></script>

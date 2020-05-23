@@ -1,9 +1,16 @@
 var idUser = sessionStorage.getItem('user_id');
+var users_details = sessionStorage.getItem('user_details');
+var jsonUserDetails =JSON.parse(users_details);
+
+if(jsonUserDetails.type){
+    document.getElementById("workspaceSidebar").innerHTML= '';
+}
+
 function handleChangeWorkspace(iterator){
 
     var users_details = sessionStorage.getItem('users_details');
     users_details = JSON.parse(users_details);
-    sessionStorage.setItem('user_details', JSON.stringify(users_details));
+    sessionStorage.setItem('user_details', JSON.stringify(users_details[iterator]));
     sessionStorage.setItem('user_id', JSON.stringify(users_details[iterator].idUser));
     sessionStorage.setItem('user_name', JSON.stringify(users_details[iterator].name));
     window.location.href = "home";
