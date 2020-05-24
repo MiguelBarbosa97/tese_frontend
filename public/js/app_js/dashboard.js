@@ -22,7 +22,7 @@ function updateCss(payload) {
         data: JSON.stringify(payload),
         success: function (data) {
             editorcss.getDoc().setValue(data.result.css);
-            editorjs.getDoc().setValue(data.result.js);      
+            editorjs.getDoc().setValue(data.result.js);
         }
     });
 }
@@ -32,20 +32,45 @@ $(document).ready(function () {
     $.ajax({
         type: "GET",
         contentType: 'application/json',
-        url: "http://localhost:8080/dashboard/get/"+idDash+"/"+idUser,
+        url: "http://localhost:8080/dashboard/get/" + idDash + "/" + idUser,
         success: function (data) {
+            editorcss.getDoc().setValue(data.result.css);
+            editorjs.getDoc().setValue(data.result.js);
 
             document.getElementById("result").innerHTML = data.result.html;
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = data.result.css;
-            editorcss.getDoc().setValue(data.result.css);
-            editorjs.getDoc().setValue(data.result.js);
-            document.head.innerHTML += data.result.libsCss;
-            document.body.innerHTML += data.result.libsJs;
-            document.body.innerHTML += data.result.js;
+            for (var i = 0; i < data.result.libsJs.length; i++) {
+                var element = data.result.libsJs[i];
+                var s = document.createElement('script');
+                s.src = element;
+                document.body.appendChild(s);
+
+            }
+            for (var i = 0; i < data.result.libsCss.length; i++) {
+                var element = data.result.libsCss[i];
+                var styleLib = document.createElement('style');
+                styleLib.type = 'text/css';
+                styleLib.innerHTML = element;
+                document.getElementsByTagName('head')[0].appendChild(styleLib);
+            }
+
+            if (data.result.libsJs.length != 0) {
+                s.addEventListener("load", () => {
+                    console.log("Script added successfully");
+                    var script = document.createElement('script');
+                    script.innerHTML = data.result.js;
+                    document.body.appendChild(script);
+                });
+            } else {
+                var script = document.createElement('script');
+                script.innerHTML = data.result.js;
+                document.body.appendChild(script);
+            }
 
             document.getElementsByTagName('head')[0].appendChild(style);
+
 
             $(function () {
                 $('.draggable').draggable({

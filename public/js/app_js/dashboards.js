@@ -15,8 +15,22 @@ function changeState(id){
 function presentation(guid, id){
     event.stopPropagation()
     sessionStorage.setItem('id_dashboard', id);
-    window.location.href = "presentation?id="+guid;
+
+    window.open(
+        "presentation?id="+guid+'&type=1',
+        '_blank' 
+      );
 }
+
+function editFullScreen(guid, id){
+    event.stopPropagation()
+    sessionStorage.setItem('id_dashboard', id);
+    window.open(
+        "presentation?id="+guid+'&type=0',
+        '_blank' 
+      );
+}
+
 function deleteDashboard(id) {
     event.stopPropagation()
 
@@ -60,8 +74,8 @@ function loadLists() {
                     htmlToAdd += '<i class="far fa-eye-slash" onclick="changeState(' + data.result[i].idDashboard + ')"></i><small>Private    </small>';
                 } else {
                     htmlToAdd += '<i class="fas fa-eye" onclick="changeState(' + data.result[i].idDashboard + ')"></i><small>Public    </small>';
-                }
-
+                } 
+                htmlToAdd += '<i class="fas fa-expand-arrows-alt" onclick="editFullScreen(\'' + data.result[i].guid + '\','+data.result[i].idDashboard +')"></i> <small> Edit full screen </small>';
                 htmlToAdd += '<i class="far fa-bookmark" onclick="presentation(\'' + data.result[i].guid + '\','+data.result[i].idDashboard +')"></i> <small> Presentation mode </small>';
                 htmlToAdd += '<span style="float:right;" onclick="deleteDashboard(' + data.result[i].idDashboard + ')"><i class="fas fa-trash"></i></span>';
 

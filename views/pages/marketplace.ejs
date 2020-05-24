@@ -78,7 +78,8 @@
                         <h1>Subscribe to this chart!</h1>
                         <input type="hidden" id="marketId" name="marketId">
                         <br>
-                        <a href="#" class="btn btn-info btn-block" onclick="subscribeViz()"><i class="fas fa-folder-plus"></i> Subscribe</a>
+                        <a href="#" class="btn btn-info btn-block" onclick="subscribeViz()"><i
+                                class="fas fa-folder-plus"></i> Subscribe</a>
 
                     </form>
                 </div>
@@ -87,6 +88,23 @@
     </div>
 </div>
 <!-- END SHARE MODAL -->
+
+<!-- expand modal -->
+<div class="modal fade" id="expand" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body" id="expandContent">
+                <iframe frameBorder="0" width="750" height="600" id="contentFrame"></iframe>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end expand modal -->
+
 <script src="js/app_js/workspaceNormal.js"></script>
 <script src="js/app_js/market.js"></script>
 <script>

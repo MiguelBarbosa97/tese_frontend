@@ -79,7 +79,7 @@ router.get('/workspace', function(req, res, next) {
 })
 
 router.get('/presentation', function(req, res, next) {
-  res.render('pages/presentation', { layout: 'login_layout' })
+  res.render('pages/presentation', { layout: 'layout_presentation' })
 })
 
 module.exports = router

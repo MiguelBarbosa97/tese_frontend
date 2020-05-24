@@ -16,7 +16,20 @@ function useChart(id) {
     document.getElementById("marketId").value = id;
     $("#subscribe").modal();
 }
-
+function expandViz(index){
+    event.stopPropagation();
+    
+    $.ajax({
+        type: "GET",
+        contentType: 'application/json',
+        url: "http://localhost:8080/market/getAllMarket",
+        success: function (data) {
+            console.log(index);
+            document.getElementById('contentFrame').src = "data:text/html;charset=utf-8," + escape(data.result.allViz[index].chart);
+            $("#expand").modal();
+        }
+    });
+}
 function subscribeViz() {
     var idMarket = document.getElementById("marketId").value;
     $.ajax({
@@ -81,7 +94,7 @@ function initPage() {
                 }
                 htmlToAdd2 += '<div class="row no-gutters align-items-center">';
                 htmlToAdd2 += '<div class="col mr-2">';
-                htmlToAdd2 += '<iframe frameBorder="0" srcdoc="' + allCharts[i].chart + '"></iframe>';
+                htmlToAdd2 += '<iframe frameBorder="0" id="frame'+i+'"></iframe>';
                 htmlToAdd2 += '<hr class="sidebar-divider d-none d-md-block">';
                 htmlToAdd2 += '<div class="h5 mb-0 font-weight-bold text-gray-800">' + allCharts[i].description + '</div>';
                 htmlToAdd2 += '<span class="badge badge-primary">' + allCharts[i].category + '</span>';
@@ -94,14 +107,19 @@ function initPage() {
                 }
                 htmlToAdd2 += '<hr class="sidebar-divider d-none d-md-block">';
                 htmlToAdd2 += '<a onclick = "likeviz(' + allCharts[i].idVizMarket + ')"> <b id="likes' + allCharts[i].idVizMarket + '">' + allCharts[i].likes + '</b>  <i class="fas fa-thumbs-up fa-2x text-gray-600"></i></a>';
-                htmlToAdd2 += '<a><b>  ' + allCharts[i].used + '</b>  <i class="fas fa-check fa-2x text-gray-600"></i></a></div>';
-                htmlToAdd2 += '</div></div></div></div></div>';
+                htmlToAdd2 += '<a><b>  ' + allCharts[i].used + '</b>  <i class="fas fa-check fa-2x text-gray-600"></i></a>';
+                htmlToAdd2 += '<a style = "float: right;" onclick = "expandViz(' + i + ')"> <i class="fas fa-expand fa-2x text-gray-600"></i></a>';
+                htmlToAdd2 += '</div></div></div></div></div></div>';
             }
-            document.getElementById("chartimage").innerHTML = htmlToAdd2;
 
+            document.getElementById("chartimage").innerHTML = htmlToAdd2;
+                // htmlToAdd2 += '<iframe frameBorder="0" srcdoc="' + allCharts[i].chart + '"></iframe>';
+                for (var i = 0; i < allCharts.length; i++) {
+                    document.getElementById('frame' + i).src = "data:text/html;charset=utf-8," + escape(allCharts[i].chart);
+
+                }
 
         }
     });
 }
-
 initPage();

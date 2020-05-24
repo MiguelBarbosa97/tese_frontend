@@ -84,7 +84,7 @@ function loadPage() {
                     htmlToAdd += '<div class="card-body">';
                     htmlToAdd += '<div class="row no-gutters align-items-center">';
                     htmlToAdd += '<div class="col mr-2">';
-                    htmlToAdd += '<iframe frameBorder="0" srcdoc="' + allValuesSecondLevel[p].all + '"></iframe>';
+                    htmlToAdd += '<iframe frameBorder="0" id = "output_iframe' + i + '-' + p + '"></iframe>';
                     htmlToAdd += '</div>';
                     htmlToAdd += '<div class="col-auto">';
                     htmlToAdd += '<div class="row">';
@@ -116,6 +116,13 @@ function loadPage() {
             }
             document.getElementById("htmlToInsert").innerHTML = htmlToAdd;
 
+            for (var i = 0; i < allValues.length; i++) {
+                var allValuesSecondLevel = allValues[i];
+                for (var p = 0; p < allValuesSecondLevel.length; p++) {
+                    document.getElementById('output_iframe' + i + '-' + p).src = "data:text/html;charset=utf-8," + escape(allValuesSecondLevel[p].all);
+
+                }
+            }
         }
     });
 }
