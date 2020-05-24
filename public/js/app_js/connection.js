@@ -326,7 +326,6 @@ $(document).ready(function () {
 
     formData.append('file', $('input[type=file]')[0].files[0]);
 
-    alert("CSV");
     console.log(formData);
     $.ajax({
       type: "POST",

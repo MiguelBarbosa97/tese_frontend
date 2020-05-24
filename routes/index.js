@@ -42,40 +42,40 @@ router.get('/', function(req, res) {
 })
 
 router.get('/home', function(req, res, next) {
-  res.render('pages/home')
+  res.render('pages/home', { title: 'home' })
 })
 
 router.get('/connection', function(req, res, next) {
-  res.render('pages/connection')
+  res.render('pages/connection', { title: 'connection' })
 })
 
 router.get('/query', function(req, res, next) {
-  res.render('pages/query')
+  res.render('pages/query', { title: 'query' })
 })
 
 router.get('/visualization', function(req, res, next) {
-  res.render('pages/visualization')
+  res.render('pages/visualization', { title: 'visualization' })
 })
 
 router.get('/dataVisualizations', function(req, res, next) {
-  res.render('pages/datavisualization')
+  res.render('pages/datavisualization', { title: 'visualization' })
 })
 router.get('/libraries', function(req, res, next) {
-  res.render('pages/libraries')
+  res.render('pages/libraries', { title: 'libraries' })
 })
 
 router.get('/marketplace', function(req, res, next) {
-  res.render('pages/marketplace')
+  res.render('pages/marketplace', { title: 'marketplace' })
 })
 router.get('/dashboards', function(req, res, next) {
-  res.render('pages/dashboards')
+  res.render('pages/dashboards', { title: 'dashboards' })
 })
 router.get('/dashboard', function(req, res, next) {
-  res.render('pages/dashboard')
+  res.render('pages/dashboard', { title: 'dashboards' })
 })
 
 router.get('/workspace', function(req, res, next) {
-  res.render('pages/workspace')
+  res.render('pages/workspace', { title: 'workspace' })
 })
 
 router.get('/presentation', function(req, res, next) {

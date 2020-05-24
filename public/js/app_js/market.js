@@ -1,4 +1,7 @@
+var idUser = sessionStorage.getItem('user_id');
+
 function likeviz(id) {
+    event.stopPropagation();
     $.ajax({
         type: "GET",
         contentType: 'application/json',
@@ -6,6 +9,38 @@ function likeviz(id) {
         success: function (data) {
             document.getElementById("likes" + id).innerHTML = data.result;
         }
+    });
+}
+
+function useChart(id) {
+    document.getElementById("marketId").value = id;
+    $("#subscribe").modal();
+}
+
+function subscribeViz() {
+    var idMarket = document.getElementById("marketId").value;
+    $.ajax({
+        type: "GET",
+        contentType: 'application/json',
+        url: "http://localhost:8080/market/subViz/" + idUser + "/" + idMarket,
+        success: function (data) {
+            $('#subscribe').modal('hide');
+            Swal.fire({
+                position: 'top-end',
+                title: "Subscribe",
+                showConfirmButton: false,
+                timer: 1000
+            })
+        },
+        error: function (error) {
+            console.log(error);
+            Swal.fire({
+                position: 'top-end',
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000
+            })
+        },
     });
 }
 
@@ -38,10 +73,10 @@ function initPage() {
 
             htmlToAdd2 = '<br>';
             for (var i = 0; i < allCharts.length; i++) {
-                htmlToAdd2 += '<div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter ' + allCharts[i].categoryFilter + '">';
+                htmlToAdd2 += '<div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter ' + allCharts[i].categoryFilter + '" onclick = "useChart(' + allCharts[i].idVizMarket + ')">';
                 htmlToAdd2 += '<div class="card border-left-primary shadow h-100 py-2">';
                 htmlToAdd2 += '<div class="card-body">';
-                if(allCharts[i].star == true){
+                if (allCharts[i].star == true) {
                     htmlToAdd2 += '<div class="topright">  <img src="image/bestValue.png" width="100" height="100"></div>';
                 }
                 htmlToAdd2 += '<div class="row no-gutters align-items-center">';
@@ -56,7 +91,7 @@ function initPage() {
                 htmlToAdd2 += '<br>'
                 for (var v = 0; v < allCharts[i].tagsSecundary.length; v++) {
                     htmlToAdd2 += '<span class="badge badge-info">' + allCharts[i].tagsSecundary[v] + '</span>';
-                }  
+                }
                 htmlToAdd2 += '<hr class="sidebar-divider d-none d-md-block">';
                 htmlToAdd2 += '<a onclick = "likeviz(' + allCharts[i].idVizMarket + ')"> <b id="likes' + allCharts[i].idVizMarket + '">' + allCharts[i].likes + '</b>  <i class="fas fa-thumbs-up fa-2x text-gray-600"></i></a>';
                 htmlToAdd2 += '<a><b>  ' + allCharts[i].used + '</b>  <i class="fas fa-check fa-2x text-gray-600"></i></a></div>';

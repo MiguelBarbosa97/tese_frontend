@@ -46,6 +46,7 @@ function deleteViz(e) {
 }
 
 function cloneViz(e) {
+    console.log(e);
     $.ajax({
         type: "GET",
         contentType: 'application/json',
@@ -72,8 +73,10 @@ function loadPage() {
                     var type = 'dark';
                     if (allValuesSecondLevel[p].type == 1) {
                         type = 'primary';
-                    }else if(allValuesSecondLevel[p].type == 2){
+                    } else if (allValuesSecondLevel[p].type == 2) {
                         type = 'warning';
+                    } else if (allValuesSecondLevel[p].type == 3) {
+                        type = 'success';
                     }
 
                     htmlToAdd += '<div class="col-xl-3 col-md-6 mb-4">';
@@ -91,16 +94,20 @@ function loadPage() {
                     htmlToAdd += '<a onclick="cloneViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-copy fa-2x text-gray-600"></i></a>';
                     htmlToAdd += '</div><br>';
                     htmlToAdd += '<div class="row">';
-                    if(allValuesSecondLevel[p].type == 2){
+                    if (allValuesSecondLevel[p].type == 2) {
                         htmlToAdd += '<a><i class="fas fa-share-alt fa-2x text-gray-600 isDisabled"></i></a>';
-                    }else{
+                    } else if (allValuesSecondLevel[p].type == 3) {
+                        htmlToAdd += '<a><i class="fas fa-share-alt fa-2x text-gray-600 isDisabled"></i></a>';
+                    } else {
                         htmlToAdd += '<a onclick="shareViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-share-alt fa-2x text-gray-600"></i></a>';
                     }
                     htmlToAdd += '</div><br>';
                     htmlToAdd += '<div class="row">';
-                    if(allValuesSecondLevel[p].type == 2){
-                    htmlToAdd += '<a><i class="fas fa-trash fa-2x text-gray-600 isDisabled"></i></a>';
-                    }else{
+                    if (allValuesSecondLevel[p].type == 2) {
+                        htmlToAdd += '<a><i class="fas fa-trash fa-2x text-gray-600 isDisabled"></i></a>';
+                    } else if (allValuesSecondLevel[p].type == 3) {
+                        htmlToAdd += '<a><i class="fas fa-trash fa-2x text-gray-600 isDisabled"></i></a>';
+                    } else {
                         htmlToAdd += '<a onclick="deleteViz(' + allValuesSecondLevel[p].idViz + ')"><i class="fas fa-trash fa-2x text-gray-600"></i></a>';
                     }
                     htmlToAdd += '</div></div></div></div></div></div>'
@@ -133,46 +140,46 @@ $(document).ready(function () {
 
     });
     $("#shareMarket").click(function () {
-        
+
         var viz_id = document.getElementById("idViz").value;
         var description = document.getElementById("description").value;
         var e = document.getElementById("categories");
         var strUser = e.options[e.selectedIndex].value;
         var tags = document.getElementById("multiTag").value;
-        var reqJson= {
+        var reqJson = {
             "idViz": viz_id,
             "idCategory": strUser,
             "description": description,
             "idUser": user_id,
             "tags": tags
         }
-        
+
         $.ajax({
             type: "POST",
             contentType: 'application/json',
             url: "http://localhost:8080/market/share",
             data: JSON.stringify(reqJson),
             success: function (data) {
-              Swal.fire({
-                position: 'top-end',
-                title: JSON.stringify(data.message).slice(1, -1),
-                showConfirmButton: false,
-                timer: 1000
-              })
-              loadPage();
-              $('#shareModal').modal('hide');
-      
+                Swal.fire({
+                    position: 'top-end',
+                    title: JSON.stringify(data.message).slice(1, -1),
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                loadPage();
+                $('#shareModal').modal('hide');
+
             },
             error: function (error) {
-              console.log(error);
-              Swal.fire({
-                position: 'top-end',
-                title: JSON.stringify(data.message).slice(1, -1),
-                showConfirmButton: false,
-                timer: 1000
-              })
+                console.log(error);
+                Swal.fire({
+                    position: 'top-end',
+                    title: JSON.stringify(data.message).slice(1, -1),
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             },
-          });
+        });
 
     });
 
