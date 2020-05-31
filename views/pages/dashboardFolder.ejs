@@ -1,0 +1,213 @@
+<%- contentFor('content') %>
+<style>
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .modal.modal-rel {
+        position: absolute;
+        z-index: 51;
+    }
+
+    .modal-dialog-slideout {
+        min-height: 100%;
+        margin: 0 0 0 auto;
+        background: #fff;
+    }
+
+    .modal.fade .modal-dialog.modal-dialog-slideout {
+        -webkit-transform: translate(100%, 0)scale(1);
+        transform: translate(100%, 0)scale(1);
+    }
+
+    .modal.fade.show .modal-dialog.modal-dialog-slideout {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        display: flex;
+        align-items: stretch;
+        -webkit-box-align: stretch;
+        height: 100%;
+    }
+
+    .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .modal-dialog-slideout .modal-header h5 {
+        float: left;
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Dashboards</h1>
+    <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#loadModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-file"></i>
+        </span>
+        <span class="text">New Dashboard</span>
+    </a>
+</div>
+<!-- LOAD DATA MODAL  -->
+<div class="modal fade" id="loadModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content border-bottom-dark">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Dashboard Name</label>
+                    <input type="type" id="dashboardName" class="form-control"></input>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Folders</label>
+                    <br>
+                    <input type="text" id="multiTag" class="form-control" data-role="tagsinput" />
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Select charts to include</label>
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table">
+                                    <tbody id="tableLoad">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-info btn-icon-split btn-sm">
+
+                    <span class="text" id="createDashboard">Create dashboard</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- LOAD DATA MODAL END -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary" id="pathsFolders"><a><i class="fas fa-folder"></i> Root /</a></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="80%">Name</th>
+                        <th width="9%">Last modified by</th>
+                        <th width="9%">Last modified on</th>
+                        <th width="2%"></th>
+                    </tr>
+                </thead>
+                <tbody id="tableFolders">
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-slideout modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalHeader"></h5>
+            </div>
+            <div class="modal-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs md-tabs nav-justified primary-color" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#panel555" role="tab">
+                            <i class="fas fa-info pr-2"></i>Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#panel666" role="tab">
+                            <i class="fab fa-buffer pr-2"></i>Version</a>
+                    </li>
+                </ul>
+                <!-- Nav tabs -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in show active" id="panel555" role="tabpanel">
+                        <br>
+                        <table>
+                            <tr>
+                                <th width="60%"></th>
+                                <th width="40%"></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Created on</th>
+                                <th id="createdOnLabel"></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Created by</th>
+                                <th id="createdByLabel"></th>
+                            </tr>
+                            <tr>
+                                <th>Modified</th>
+                                <th id="modifiedLabel"></th>
+                            </tr>
+
+                            <tr>
+                                <th>Number of charts</th>
+                                <th id="numberChartsLabel"></th>
+                            </tr>
+                        </table>
+                        <hr class="sidebar-divider">
+                        <div id="chartsBadges">
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="panel666" role="tabpanel">
+                        <input type="hidden" id="idDashboard" class="form-control"></input>
+                        <input type="hidden" id="guid" class="form-control"></input>
+
+                        <br>
+                        <a onclick="addComment()"><i class="fas fa-plus"></i> Add comment</a>
+                        <br>
+                        <input type="text" id="logDescription" class="form-control" hidden></input>
+                        <ul class="list-group list-group-flush" id="listLogs">
+
+                        </ul>
+                        <br>
+
+                        <a href="#" class="btn btn-info btn-icon-split btn-sm" id="saveButton" hidden>
+
+                            <span class="text" id="addCommentSave">Save</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <i class="far fa-file-powerpoint fa-2x" rel="tooltip" title="Presentation mode" onclick="presentation()">  </i>
+                <i class="fas fa-pencil-alt fa-2x" rel="tooltip" title="Edit full screen"  onclick="editFullScreen()">  </i>
+                <i class="far fa-trash-alt fa-2x" rel="tooltip" title="Delete dashboard"  onclick="deleteDashboard()">  </i>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function addComment() {
+        document.getElementById('saveButton').removeAttribute("hidden");
+        document.getElementById('logDescription').removeAttribute("hidden");
+    }
+</script>
+<script src="js/app_js/dashboardsFolders.js"></script>

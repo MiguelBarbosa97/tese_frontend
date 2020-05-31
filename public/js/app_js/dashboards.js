@@ -61,8 +61,8 @@ function loadLists() {
             var htmlToAdd = "";
 
             for (i = 0; i < data.result.length; i++) {
-
-                htmlToAdd += '<a onclick="openDashboard(' + data.result[i].idDashboard + ')" class="list-group-item list-group-item-action flex-column align-items-start">';
+                // onclick="openDashboard(' + data.result[i].idDashboard + ')"
+                htmlToAdd += '<a  class="list-group-item list-group-item-action flex-column align-items-start">';
                 htmlToAdd += '<div class="d-flex w-100 justify-content-between">';
                 htmlToAdd += '<h5 class="mb-1"><span class="badge badge-primary badge-pill">' + data.result[i].idDashboard + '</span>' + data.result[i].dashboardName + '</h5>';
                 htmlToAdd += '<small class="text-muted">' + data.result[i].days + ' days ago</small></div>';

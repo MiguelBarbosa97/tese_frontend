@@ -3,8 +3,17 @@ guid = guid.split('&')[0];
 var type = location.search.split('type=')[1];
 var idUser = sessionStorage.getItem('user_id');
 
+if(type == 1){
+    document.getElementById("topbarEditMode").setAttribute("hidden", true);
+}
+
 if (idUser == undefined) {
     idUser = 0;
+}
+
+function back(){
+    window.location.href = "/dashboards";
+
 }
 function updateCss(payload) {
     $.ajax({
@@ -159,7 +168,6 @@ $.ajax({
     contentType: 'application/json',
     url: "http://localhost:8080/dashboard/checkPresentation/" + idUser + "/" + guid,
     success: function (data) {
-        console.log("sss");
         var htmlError = '';
 
         if (data.message == "200") {

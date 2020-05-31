@@ -2,12 +2,32 @@
 <html lang="en">
 
 <head>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     <link href="css/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        .topnav {
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+        }
+
+        .topnav a {
+            float: right;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body id="page-top">
+
+    <div class="topnav" id="topbarEditMode">
+        <a onclick="back()"><i class="fas fa-arrow-circle-left  fa-2x"></i></a>
+    </div>
+    <!-- End of Topbar -->
     <div class="container">
 
         <%- content %>

@@ -68,8 +68,9 @@ router.get('/marketplace', function(req, res, next) {
   res.render('pages/marketplace', { title: 'marketplace' })
 })
 router.get('/dashboards', function(req, res, next) {
-  res.render('pages/dashboards', { title: 'dashboards' })
+  res.render('pages/dashboardFolder', { title: 'dashboards' })
 })
+
 router.get('/dashboard', function(req, res, next) {
   res.render('pages/dashboard', { title: 'dashboards' })
 })
@@ -77,6 +78,12 @@ router.get('/dashboard', function(req, res, next) {
 router.get('/workspace', function(req, res, next) {
   res.render('pages/workspace', { title: 'workspace' })
 })
+
+
+router.get('/market', function(req, res, next) {
+  res.render('pages/market', { title: 'market' })
+})
+
 
 router.get('/presentation', function(req, res, next) {
   res.render('pages/presentation', { layout: 'layout_presentation' })
