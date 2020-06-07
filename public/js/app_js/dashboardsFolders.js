@@ -83,7 +83,7 @@ function openDetails(id) {
             htmlBadges = "";
             for (var i = 0; i < data.result.vizs.length; i++) {
                 var element = data.result.vizs[i];
-                htmlBadges += '<span class="badge badge-secondary">' + element.name + '</span>';
+                htmlBadges += '<span class="badge badge-secondary">' + element.name + '</span> ';
             }
             document.getElementById("chartsBadges").innerHTML = htmlBadges;
 

@@ -1,1 +1,135 @@
 <%- contentFor('content') %>
+
+<style>
+    .market {
+        top: 10px;
+        bottom: 10px;
+        background-color: white;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    a {
+        color: #5a5c69;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+    .topright {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index: 10;
+
+    }
+
+    .p_class {
+        display: inline-block;
+    }
+
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Marketplace</h1>
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-2">
+        <div class="card shadow mb-2">
+            <a href="#collapseCategory" class="card-header market" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseCategory">
+                <h4 class="m-0 font-weight">Categories</h4>
+            </a>
+            <div class="collapse show" id="collapseCategory">
+                <div class="card-body">
+
+                    <h6 class="m-0 font-weight">Primary</h6>
+                    <br>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <hr class="sidebar-divider">
+                    <h6 class="m-0 font-weight">Secundary</h6>
+                    <br>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+
+        <div class="card shadow mb-2">
+            <a href="#collapseTags" class="card-header market" data-toggle="collapse" role="button" aria-expanded="true"
+                aria-controls="collapseTags">
+                <h4 class="m-0 font-weight">Tags</h4>
+            </a>
+            <div class="collapse show" id="collapseTags">
+                <div class="card-body">
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="materialChecked2">
+                        <label class="form-check-label" for="materialChecked2">Material checked</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card shadow mb-2">
+            <a href="#collapseFilter" class="card-header market" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseFilter">
+                <h4 class="m-0 font-weight">Filter Charts</h4>
+            </a>
+            <div class="collapse show" id="collapseFilter">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="formControlRange">Likes range</label>
+                            <input type="range" class="form-control-range" id="formControlRange">
+                        </div>
+                    </form>
+                    <form>
+                        <div class="form-group">
+                            <label for="formControlRange">Times used range</label>
+                            <input type="range" class="form-control-range" id="formControlRange">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-10" id="chartimage">
+
+
+    </div>
+</div>
+
+<script src="js/app_js/workspaceNormal.js"></script>
+<script src="js/app_js/marketNew.js"></script>

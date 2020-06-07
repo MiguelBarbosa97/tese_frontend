@@ -1,0 +1,89 @@
+<%- contentFor('content') %>
+<style>
+    .market {
+        top: 10px;
+        bottom: 10px;
+        background-color: white;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    a {
+        color: #5a5c69;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+    .chart {
+        height: 600px;
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Chart <span class="badge badge-info" id="chartID"></span></h1>
+    <div>
+        <a href="#" class="btn btn-success btn-circle btn-sm" onclick="subscribeViz()">
+            <i class="fas fa-check"></i>
+        </a>
+        <a href="/market" class="btn btn-secondary btn-circle btn-sm">
+            <i class="fas fa-arrow-left"></i>
+        </a></div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card shadow mb-2">
+            <div class="card-header market">
+                User information
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">User name : <b style="float: right;" id="username"></b></li>
+                    <li class="list-group-item">Total Charts : <b style="float: right;" id= "totalCharts"></b></li>
+                    <li class="list-group-item">Market Charts : <b style="float: right;" id= "marketCharts"></b></li>
+                    <li class="list-group-item">Total likes : <b style="float: right;" id= "totalLikes"></b></li>
+                    <li class="list-group-item">Total used : <b style="float: right;" id= "totalUsed"></b></li>
+                </ul>
+            </div>
+        </div>
+
+        <br>
+        <div class="card shadow mb-3">
+            <div class="card-header market">
+                Chart information
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Release date : <b style="float: right;" id="date"></b></li>
+                    <li class="list-group-item">Number likes : <b style="float: right;" id="likes"></b></li>
+                    <li class="list-group-item">Number used : <b style="float: right;" id="used"></b></li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="card shadow mb-3">
+            <div class="card-header market">
+                Tags
+            </div>
+            <div class="card-body" id = "tags">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="card shadow mb-9 chart">
+            <iframe frameBorder="0" width="100%" height="100%" id="contentFrame"></iframe>
+
+        </div>
+        <br><br>
+        <div class="card shadow mb-9">
+            <div class="card-header market">
+                Description
+            </div>
+            <div class="card-body" id="description">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/app_js/marketDetail.js"></script>

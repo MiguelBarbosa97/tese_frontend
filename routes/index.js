@@ -83,7 +83,9 @@ router.get('/workspace', function(req, res, next) {
 router.get('/market', function(req, res, next) {
   res.render('pages/market', { title: 'market' })
 })
-
+router.get('/marketDetail', function(req, res, next) {
+  res.render('pages/marketDetail', { title: 'marketDetail' })
+})
 
 router.get('/presentation', function(req, res, next) {
   res.render('pages/presentation', { layout: 'layout_presentation' })
