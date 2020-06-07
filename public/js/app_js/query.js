@@ -12,20 +12,16 @@ var editorsql = CodeMirror.fromTextArea(document.getElementById('sqlarea'), {
 function updateTable(tableId, jsonData) {
 
   var tableHTML = "<tr>";
-  for (var headers in jsonData[0]) {
-    tableHTML += "<th>" + headers + "</th>";
-  }
-  tableHTML += "<th>Actions</th>";
-
-  tableHTML += "</tr>";
 
   for (var eachItem in jsonData) {
     tableHTML += "<tr>";
     var dataObj = jsonData[eachItem];
-    for (var eachValue in dataObj) {
-      tableHTML += "<td>" + dataObj[eachValue] + "</td>";
-    }
-    tableHTML +=  '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="fas fa-share-alt"></i></a><a></a>  <a href="#" class="btn btn-warning btn-circle btn-sm" onclick="previewQuery('+dataObj.idQuery+',\''+dataObj.type+'\')"> <i class="far fa-eye"></i></a></td>';
+
+    tableHTML += "<td>" + dataObj.idQuery + "</td>";
+    tableHTML += "<td>" + dataObj.type + "</td>";
+    tableHTML += "<td>" + dataObj.name + "</td>";
+
+    tableHTML += '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteQuery(' + dataObj.idQuery + ',\'' + dataObj.type + '\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareQuery(' + dataObj.idQuery + ',\'' + dataObj.type + '\')"> <i class="fas fa-share-alt"></i></a><a></a>  <a href="#" class="btn btn-warning btn-circle btn-sm" onclick="previewQuery(' + dataObj.idQuery + ',\'' + dataObj.type + '\')"> <i class="far fa-eye"></i></a></td>';
 
     tableHTML += "</tr>";
   }
@@ -73,9 +69,9 @@ function init_page() {
   });
 }
 
-function deleteQuery(id, type){
+function deleteQuery(id, type) {
 
-$.ajax({
+  $.ajax({
     type: "DELETE",
     contentType: 'application/json',
     url: "http://localhost:8080/users/deleteQueries/" + type + "/" + id,
@@ -85,7 +81,7 @@ $.ajax({
   });
 }
 
-function previewQuery(id, type){
+function previewQuery(id, type) {
   $.ajax({
     type: "GET",
     contentType: 'application/json',
@@ -94,7 +90,7 @@ function previewQuery(id, type){
       $("#preview").modal();
       var text = '{ "data":[' + data.result + ']}';
       var json = JSON.parse(text);
-      
+
       updateTablepreview("previewtable", json.data);
     },
   });
@@ -209,7 +205,7 @@ function fill_table_dropdown(id) {
   select.add(option, 0);
 }
 
-function clear_columns(){
+function clear_columns() {
   var select = document.getElementById("selectedColumns");
 
   var length = select.options.length;
@@ -217,7 +213,7 @@ function clear_columns(){
   for (i = length - 1; i >= 0; i--) {
     select.options[i] = null;
   }
-  var bodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0]; 
+  var bodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
   bodyRef.innerHTML = '';
 }
 
@@ -244,8 +240,8 @@ function fill_column_dropdown_hive(value) {
           option.text = option.value = new_array[i].col_name;
           select.add(option, 0);
         }
-    
-        
+
+
       }
 
     }
@@ -256,7 +252,7 @@ function fill_column_dropdown_hive(value) {
 function fill_column_dropdown(value) {
 
   var select = document.getElementById("selectedColumns");
-  
+
   var length = select.options.length;
 
   for (i = length - 1; i >= 0; i--) {
@@ -278,7 +274,7 @@ function fill_column_dropdown(value) {
           select.add(option, 0);
           // columns_filter.add(option, 0);
         }
-  
+
       }
 
     }
@@ -366,7 +362,7 @@ $(document).ready(function () {
   $('.step .step-content').on('click', function (e) {
     e.stopPropagation();
   });
- 
+
   $('.step').on('click', function () {
     if (!$(this).hasClass("minimized")) {
       curOpen = null;
@@ -412,7 +408,7 @@ $(document).ready(function () {
 
     var filterArray = [];
     var lengthfilter = document.getElementById("myTable").tBodies[0].rows.length;
-    
+
     for (var i = 0; i < lengthfilter; i++) {
       element = [document.getElementById("columns_filter" + i).options[document.getElementById("columns_filter" + i).selectedIndex].value, document.getElementById("value_filter" + i).value];
       filterArray.push(element)
@@ -440,50 +436,51 @@ $(document).ready(function () {
 
       var url = "http://localhost:8080/csv/SaveQuery";
 
-    }else{
+    } else {
       var typeValidation = document.getElementById("hiveTable").options[document.getElementById("hiveTable").selectedIndex].value;
 
-      if(typeValidation == 'ui'){
+      if (typeValidation == 'ui') {
         var hiveTable = document.getElementById("hiveTableName").options[document.getElementById("hiveTableName").selectedIndex].text;
 
         var columnSelectQuery = '';
         for (var i = 0; i < selected.length; i++) {
-          
+
           columnSelectQuery = columnSelectQuery + selected[i] + ','
         }
-        columnSelectQuery = columnSelectQuery.slice(0,-1);
-        
+        columnSelectQuery = columnSelectQuery.slice(0, -1);
+
         var whereSelectQuery = '';
-        if(filterArray.length != 0){
+        if (filterArray.length != 0) {
           whereSelectQuery += " WHERE ";
         }
 
         for (var i = 0; i < filterArray.length; i++) {
-          
-          whereSelectQuery = whereSelectQuery  + filterArray[i][0] + ' = '  + "'" + filterArray[i][1]  + "' AND "
+
+          whereSelectQuery = whereSelectQuery + filterArray[i][0] + ' = ' + "'" + filterArray[i][1] + "' AND "
         }
-        whereSelectQuery = whereSelectQuery.slice(0,-4);
-        
+        whereSelectQuery = whereSelectQuery.slice(0, -4);
+
         var query = "SELECT " + columnSelectQuery + ' FROM ' + hiveTable + ' ' + whereSelectQuery;
 
         console.log(query);
-        
-        var reqJson= {
+
+        var reqJson = {
           "query": query,
           "hiveService": connectionID,
           "cache": cacheResults,
           "queryname": queryName
         };
-        var url  = "http://localhost:8080/hive/SaveQuery";
-      }else{
+        var url = "http://localhost:8080/hive/SaveQuery";
+      } else {
         var query = editorsql.getValue();
-        var reqJson= {
+        var reqJson = {
           "query": query,
           "hiveService": connectionID,
           "cache": cacheResults,
           "queryname": queryName
         };
-        var url  = "http://localhost:8080/hive/SaveQuery";      }
+        var url = "http://localhost:8080/hive/SaveQuery";
+      }
     }
 
 

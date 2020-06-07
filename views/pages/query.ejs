@@ -174,10 +174,21 @@
     .step.minimized:hover {
         background-color: rgba(0, 0, 0, 0.06);
     }
+
+    .add {
+        color: white;
+    }
 </style>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Queries</h1>
+
+    <a class="btn btn-dark btn-icon-split" data-toggle="modal" data-target="#newQueryWizardModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus add"></i>
+        </span>
+        <span class="text">New query wizard</span>
+    </a>
 </div>
 
 <div class="row">
@@ -246,30 +257,23 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Queries</h6>
-                <div class="nav-item dropdown">
-                    <button class="btn btn-secondary" data-toggle="modal" data-target="#newQueryWizardModal">
-                        New query wizard
-                    </button>
 
-                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="query_table" width="100%" cellspacing="0">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Query id</th>
-                                <th>Query type</th>
-                                <th>Query name</th>
-
+                                <th width="30%">Query id</th>
+                                <th width="30%">Query type</th>
+                                <th width="30%">Query name</th>
+                                <th width="10%">Actions</th>
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr>
+                        <tbody id="query_table">
 
-                            </tr>
 
                         </tbody>
                     </table>

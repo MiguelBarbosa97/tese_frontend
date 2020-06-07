@@ -1,20 +1,15 @@
 function init_page() {
   function updateTable(tableId, jsonData) {
 
-    var tableHTML = "<tr>";
-    for (var headers in jsonData[0]) {
-      tableHTML += "<th>" + headers + "</th>";
-    }
-    tableHTML += "<th>Actions</th>";
-
-    tableHTML += "</tr>";
-
+    tableHTML= '';
     for (var eachItem in jsonData) {
       tableHTML += "<tr>";
       var dataObj = jsonData[eachItem];
-      for (var eachValue in dataObj) {
-        tableHTML += "<td>" + dataObj[eachValue] + "</td>";
-      }
+
+      tableHTML += "<td>" + dataObj.id + "</td>";
+      tableHTML += "<td>" + dataObj.type + "</td>";
+      tableHTML += "<td>" + dataObj.name + "</td>";
+
       tableHTML += '<td> <a href="#" class="btn btn-danger btn-circle btn-sm" onclick="deleteCon(' + dataObj.id + ',\'' + dataObj.type + '\')"> <i class="fas fa-trash"></i></a> <a></a>  <a href="#" class="btn btn-info btn-circle btn-sm" onclick="shareCon(' + dataObj.id + ',\'' + dataObj.type + '\')"> <i class="fas fa-share-alt"></i></a></td>';
 
       tableHTML += "</tr>";
@@ -22,6 +17,7 @@ function init_page() {
 
     document.getElementById(tableId).innerHTML = tableHTML;
   }
+
 
   var user_id = sessionStorage.getItem('user_id');
 

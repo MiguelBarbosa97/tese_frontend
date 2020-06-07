@@ -10,6 +10,10 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+ 
+.add{
+  color: white;
+}
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
@@ -32,6 +36,7 @@
   --danger: #e74a3b;
   --light: #f8f9fc;
   --dark: #5a5c69;
+  
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
