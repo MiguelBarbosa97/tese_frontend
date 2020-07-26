@@ -41,13 +41,7 @@ $(document).ready(function () {
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = data.result.css;
-            for (var i = 0; i < data.result.libsJs.length; i++) {
-                var element = data.result.libsJs[i];
-                var s = document.createElement('script');
-                s.src = element;
-                document.body.appendChild(s);
 
-            }
             for (var i = 0; i < data.result.libsCss.length; i++) {
                 var element = data.result.libsCss[i];
                 var styleLib = document.createElement('style');
@@ -68,7 +62,13 @@ $(document).ready(function () {
                 script.innerHTML = data.result.js;
                 document.body.appendChild(script);
             }
+            for (var i = 0; i < data.result.libsJs.length; i++) {
+                var element = data.result.libsJs[i];
+                var s = document.createElement('script');
+                s.src = element;
+                document.body.appendChild(s);
 
+            }
             document.getElementsByTagName('head')[0].appendChild(style);
 
 

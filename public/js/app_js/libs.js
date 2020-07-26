@@ -1,5 +1,5 @@
 function handleSelectionScript(counter, value) {
-  
+
 
     if (value == 'url') {
         document.getElementById('file' + counter).type = 'hidden';
@@ -10,7 +10,7 @@ function handleSelectionScript(counter, value) {
     }
 }
 function handleSelectionStyle(counter, value) {
-   
+
     if (value == 'url') {
         document.getElementById('fileStyle' + counter).type = 'hidden';
         document.getElementById('urlStyle' + counter).type = 'text';
@@ -103,6 +103,7 @@ $(document).ready(function () {
 
         cols += '<td> <select id="typeScript' + counter1 + '" name = "typeScript' + counter1 + '" class="form-control"  onChange="handleSelectionScript(' + counter1 + ',value)"><option value="file" selected>File</option><option value="url">URL</option> </select></td>';
         cols += '<td><input type="file" id="file' + counter1 + '" name="file' + counter1 + '" class="form-control-file" /> <input type="hidden" id="url' + counter1 + '" name="url' + counter1 + '" class="form-control" /></td>';
+        cols += '<td><input type="checkbox" id="loadTime' + counter1 + '" name="loadTime' + counter1 + '" /> </td>';
         cols += '<td><input type="button" class="ibtnDel1 btn btn-md btn-danger " value="X"></td>';
         newRow.append(cols);
         $("table.order-list1").append(newRow);
@@ -126,6 +127,7 @@ $(document).ready(function () {
             if (typeSelec == 'url') {
                 var elem = {
                     "path": document.getElementById("url" + i).value,
+                    "loadTime": document.getElementById("loadTime" + i).checked,
                     "type": 1
                 };
             } else {
@@ -137,10 +139,11 @@ $(document).ready(function () {
                     url: "http://localhost:9000/uploadLibJs",
                     data: formData,
                     processData: false,
-                    async:false,
+                    async: false,
                     success: function (data) {
                         var elem = {
                             "path": "uploads/js/" + data.filename,
+                            "loadTime": document.getElementById("loadTime" + i).checked,
                             "type": 1
                         };
                         sessionStorage.setItem('temp', JSON.stringify(elem));
@@ -162,6 +165,7 @@ $(document).ready(function () {
             if (typeSelec == 'url') {
                 var elem = {
                     "path": document.getElementById("urlStyle" + i).value,
+                    "loadTime": true,
                     "type": 0
                 };
             } else {
@@ -173,10 +177,11 @@ $(document).ready(function () {
                     url: "http://localhost:9000/uploadLibCss",
                     data: formData,
                     processData: false,
-                    async:false,
+                    async: false,
                     success: function (data) {
                         var elem = {
                             "path": "uploads/css/" + data.filename,
+                            "loadTime": true,
                             "type": 0
                         };
                         sessionStorage.setItem('temp', JSON.stringify(elem));
@@ -199,39 +204,37 @@ $(document).ready(function () {
             "description": description,
             "libDetails": libDetails
         }
-
         console.log(JSON.stringify(requestJson));
-
         $.ajax({
             type: "POST",
             contentType: 'application/json',
             url: "http://localhost:8080/libs/importLib",
             data: JSON.stringify(requestJson),
             success: function (data) {
-      
-              init_page();
-              document.getElementById("name").value = '';
-              document.getElementById("version").value = '';
-              document.getElementById("description").value = '';
-      
-              Swal.fire({
-                position: 'top-end',
-                title: JSON.stringify(data.message).slice(1, -1),
-                showConfirmButton: false,
-                timer: 1000
-              })
-              $('#newLibModal').modal('hide');
-      
+
+                init_page();
+                document.getElementById("name").value = '';
+                document.getElementById("version").value = '';
+                document.getElementById("description").value = '';
+
+                Swal.fire({
+                    position: 'top-end',
+                    title: JSON.stringify(data.message).slice(1, -1),
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                $('#newLibModal').modal('hide');
+
             },
             error: function (error) {
-              console.log(error);
-              Swal.fire({
-                position: 'top-end',
-                title: JSON.stringify(error.message).slice(1, -1),
-                showConfirmButton: false,
-                timer: 1000
-              })
+                console.log(error);
+                Swal.fire({
+                    position: 'top-end',
+                    title: JSON.stringify(error.message).slice(1, -1),
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             },
-          });
+        });
     });
 });

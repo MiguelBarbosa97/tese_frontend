@@ -3,7 +3,7 @@ guid = guid.split('&')[0];
 var type = location.search.split('type=')[1];
 var idUser = sessionStorage.getItem('user_id');
 
-if(type == 1){
+if (type == 1) {
     document.getElementById("topbarEditMode").setAttribute("hidden", true);
 }
 
@@ -11,7 +11,7 @@ if (idUser == undefined) {
     idUser = 0;
 }
 
-function back(){
+function back() {
     window.location.href = "/dashboards";
 
 }
@@ -22,50 +22,63 @@ function updateCss(payload) {
         url: "http://localhost:8080/dashboard/updateCss",
         data: JSON.stringify(payload),
         success: function (data) {
-                 
+
         }
     });
 }
+function  loadjs(data){
+    var script = document.createElement('script');
+    script.innerHTML = data.result.js;
+    document.body.appendChild(script);
+}   
 
+function loadLastJsLibs(data){
+    for (var i = 0; i < data.result.libsJs.length; i++) {
+        var element = data.result.libsJs[i];
+        if (element.loadFirst == false) {
+            var s = document.createElement('script');
+            s.src = element.lib;
+            document.body.appendChild(s);   
+        }
+    }
+}
 function charts(idDash, idUser) {
+    console.log("http://localhost:8080/dashboard/get/" + idDash + "/" + idUser);
+
     $.ajax({
         type: "GET",
         contentType: 'application/json',
-        url: "http://localhost:8080/dashboard/get/" + idDash + "/" + idUser,
+        url: "http://localhost:8080/dashboard/get/" + idDash + "/" + idUser+ "/1",
         success: function (data) {
+
             document.getElementById("result").innerHTML = data.result.html;
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = data.result.css;
-            for (var i = 0; i < data.result.libsJs.length; i++) {
-                var element = data.result.libsJs[i];
-                var s = document.createElement('script');
-                s.src = element;
-                document.body.appendChild(s);
 
-            }
+
             for (var i = 0; i < data.result.libsCss.length; i++) {
                 var element = data.result.libsCss[i];
-                var styleLib = document.createElement('style');
-                styleLib.type = 'text/css';
-                styleLib.innerHTML = element;
-                document.getElementsByTagName('head')[0].appendChild(styleLib);
-            }
-
-            if (data.result.libsJs.length != 0) {
-                s.addEventListener("load", () => {
-                    console.log("Script added successfully");
-                    var script = document.createElement('script');
-                    script.innerHTML = data.result.js;
-                    document.body.appendChild(script);
-                });
-            } else {
-                var script = document.createElement('script');
-                script.innerHTML = data.result.js;
-                document.body.appendChild(script);
+                var link = document.createElement('link');
+                link.type = 'text/css';
+                link.rel = 'stylesheet';
+                link.href = element;
+                document.getElementsByTagName('head')[0].appendChild(link);
             }
 
             document.getElementsByTagName('head')[0].appendChild(style);
+
+
+            for (var i = 0; i < data.result.libsJs.length; i++) {
+
+                var element = data.result.libsJs[i];
+                var s = document.createElement('script');
+                s.src = element.lib;
+                document.body.appendChild(s);
+            }
+        
+            setTimeout(() => loadjs(data), 10000);
+            setTimeout(() => loadLastJsLibs(data), 10000);
 
             $(function () {
                 $('.draggable').draggable({
@@ -120,41 +133,36 @@ function chartsView(idDash, idUser) {
     $.ajax({
         type: "GET",
         contentType: 'application/json',
-        url: "http://localhost:8080/dashboard/get/" + idDash + "/" + idUser,
+        url: "http://localhost:8080/dashboard/get/" + idDash + "/" + idUser + "/0",
         success: function (data) {
+          
             document.getElementById("result").innerHTML = data.result.html;
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = data.result.css;
-            for (var i = 0; i < data.result.libsJs.length; i++) {
-                var element = data.result.libsJs[i];
-                var s = document.createElement('script');
-                s.src = element;
-                document.body.appendChild(s);
 
-            }
             for (var i = 0; i < data.result.libsCss.length; i++) {
                 var element = data.result.libsCss[i];
-                var styleLib = document.createElement('style');
-                styleLib.type = 'text/css';
-                styleLib.innerHTML = element;
-                document.getElementsByTagName('head')[0].appendChild(styleLib);
-            }
-
-            if (data.result.libsJs.length != 0) {
-                s.addEventListener("load", () => {
-                    console.log("Script added successfully");
-                    var script = document.createElement('script');
-                    script.innerHTML = data.result.js;
-                    document.body.appendChild(script);
-                });
-            } else {
-                var script = document.createElement('script');
-                script.innerHTML = data.result.js;
-                document.body.appendChild(script);
+                var link = document.createElement('link');
+                link.type = 'text/css';
+                link.rel = 'stylesheet';
+                link.href = element;
+                document.getElementsByTagName('head')[0].appendChild(link);
             }
 
             document.getElementsByTagName('head')[0].appendChild(style);
+
+
+            for (var i = 0; i < data.result.libsJs.length; i++) {
+
+                var element = data.result.libsJs[i];
+                var s = document.createElement('script');
+                s.src = element.lib;
+                document.body.appendChild(s);
+            }
+        
+            setTimeout(() => loadjs(data), 10000);
+            setTimeout(() => loadLastJsLibs(data), 10000);
 
             $(function () {
                 $('.draggable').draggable().resizable();
@@ -171,9 +179,9 @@ $.ajax({
         var htmlError = '';
 
         if (data.message == "200") {
-            if(type == "0"){
+            if (type == "0") {
                 charts(data.result[1], data.result[0]);
-            }else{
+            } else {
                 chartsView(data.result[1], data.result[0]);
             }
         } else if (data.message == "401") {
