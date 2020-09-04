@@ -55,8 +55,11 @@ $(document).ready(function () {
     });
 
     editorjs.on('change', function () {
+        var t0 = performance.now()
         // get value right from instance
         updateVizData(viz_id);
+        var t1 = performance.now()
+        console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
 
     });
 
@@ -70,13 +73,18 @@ $(document).ready(function () {
             "js": editorjs.getValue(),
             "html": editorhtml.getValue()
         }
+        var start_time = new Date().getTime();
+        console.log("http://localhost:8080/viz/updateViz/" + viz_id + "/" + user_id);
+
         $.ajax({
             type: "POST",
             contentType: 'application/json',
             url: "http://localhost:8080/viz/updateViz/" + viz_id + "/" + user_id,
             data: JSON.stringify(reqJson),
             success: function (data) {
-                console.log(data.result.all);
+                var request_time = new Date().getTime() - start_time;
+                console.log("SIZE: ", data.result.all.length);
+                console.log("Time: ", request_time);
                 document.getElementById('result').src = "data:text/html;charset=utf-8," + escape(data.result.all);
             }
         });
@@ -88,8 +96,6 @@ $(document).ready(function () {
             contentType: 'application/json',
             url: "http://localhost:8080/viz/getViz/" + viz_id + "/" + user_id,
             success: function (data) {
-
-                console.log(data.result.all);
 
                 document.getElementById("nameViz").innerHTML = data.result.name;
 
@@ -111,7 +117,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             url: "http://localhost:8080/libs/getLibs/" + viz_id,
             success: function (data) {
-                console.log(data.result.all);
+
                 document.getElementById('result').src = "data:text/html;charset=utf-8," + escape(data.result.all);
 
                 var htmlAdd = '';
@@ -191,7 +197,6 @@ $(document).ready(function () {
 
             }
         });
-        console.log(libsIds);
 
     });
 

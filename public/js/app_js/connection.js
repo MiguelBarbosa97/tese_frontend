@@ -323,6 +323,7 @@ $(document).ready(function () {
     formData.append('file', $('input[type=file]')[0].files[0]);
 
     console.log(formData);
+    
     $.ajax({
       type: "POST",
       contentType: false,
@@ -346,7 +347,7 @@ $(document).ready(function () {
         console.log(error);
         Swal.fire({
           position: 'top-end',
-          title: JSON.stringify(data.message).slice(1, -1),
+          title: JSON.stringify(error.message).slice(1, -1),
           showConfirmButton: false,
           timer: 1000
         })

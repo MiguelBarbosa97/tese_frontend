@@ -2,6 +2,7 @@ var express = require('express')
 var multer = require('multer')
 var crypto = require('crypto')
 var mime = require("mime");
+var csv = require("csvtojson");
 
 var storagejs = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -42,6 +43,54 @@ router.get('/getGeoData', function (req, res) {
   res.send(json);
 });
 
+router.get('/data/1', function (req, res) {
+  var csvFilePath = 'C:/Users/migue/OneDrive/Ambiente de Trabalho/benchmarl/MOCK_DATA_#1.csv';
+  csv()
+    .fromFile(csvFilePath)
+    .then(function (jsonArrayObj) {
+      res.send(jsonArrayObj);
+
+    })
+});
+
+router.get('/data/2', function (req, res) {
+  var csvFilePath = 'C:/Users/migue/OneDrive/Ambiente de Trabalho/benchmarl/MOCK_DATA_#2.csv';
+  csv()
+    .fromFile(csvFilePath)
+    .then(function (jsonArrayObj) {
+      res.send(jsonArrayObj);
+
+    })
+});
+
+router.get('/data/3', function (req, res) {
+  var csvFilePath = 'C:/Users/migue/OneDrive/Ambiente de Trabalho/benchmarl/MOCK_DATA_#3.csv';
+  csv()
+    .fromFile(csvFilePath)
+    .then(function (jsonArrayObj) {
+      res.send(jsonArrayObj);
+
+    })
+});
+
+router.get('/data/4', function (req, res) {
+  var csvFilePath = 'C:/Users/migue/OneDrive/Ambiente de Trabalho/benchmarl/MOCK_DATA_#4.csv';
+  csv()
+    .fromFile(csvFilePath)
+    .then(function (jsonArrayObj) {
+      res.send(jsonArrayObj);
+
+    })
+});
+router.get('/data/5', function (req, res) {
+  var csvFilePath = 'C:/Users/migue/OneDrive/Ambiente de Trabalho/benchmarl/MOCK_DATA_#5.csv';
+  csv()
+    .fromFile(csvFilePath)
+    .then(function (jsonArrayObj) {
+      res.send(jsonArrayObj);
+
+    })
+});
 
 router.get('/', function (req, res) {
   res.render('pages/login', { layout: 'login_layout' })
